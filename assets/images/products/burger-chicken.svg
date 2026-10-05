@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 370">
+  <g stroke="#1E1E1E" stroke-width="6" stroke-linejoin="round" stroke-linecap="round">
+
+    <!-- Bottom bun (soft potato bun = lighter) -->
+    <rect x="50" y="292" width="300" height="60" rx="28" fill="#F7C873"/>
+
+    <!-- Crispy chicken (bumpy edges) -->
+    <path d="M30 250
+             Q45 228 70 236 Q95 222 120 236 Q150 222 180 236 Q210 222 240 236
+             Q270 222 300 236 Q330 224 360 240 Q378 262 360 284
+             Q330 304 300 292 Q270 306 240 292 Q210 306 180 292
+             Q150 306 120 292 Q90 306 62 292 Q30 286 30 250 Z"
+          fill="#E89A2E"/>
+
+    <!-- Crunchy breading texture -->
+    <g stroke-width="4" fill="none">
+      <path d="M80 258 l10 8"/>
+      <path d="M128 268 l-8 8"/>
+      <path d="M165 254 l12 6"/>
+      <path d="M205 272 l10 -6"/>
+      <path d="M240 258 l10 -8"/>
+      <path d="M282 270 l-8 8"/>
+      <path d="M310 256 l10 8"/>
+    </g>
+    <g fill="#C97A1A" stroke-width="3">
+      <circle cx="105" cy="270" r="4"/>
+      <circle cx="190" cy="262" r="4"/>
+      <circle cx="262" cy="276" r="4"/>
+      <circle cx="335" cy="266" r="4"/>
+    </g>
+
+    <!-- Coleslaw (creamy + shreds) -->
+    <path d="M48 222 Q70 208 95 220 Q125 206 155 220 Q185 206 215 220 Q245 206 275 220 Q305 206 335 220 Q352 212 356 224 L346 236 H56 Z"
+          fill="#FFF4E0"/>
+    <g stroke-width="4" fill="none">
+      <path d="M90 226 l16 -4" stroke="#A66BFF"/>
+      <path d="M160 228 l14 2" stroke="#FF8A1F"/>
+      <path d="M220 224 l16 -2" stroke="#A66BFF"/>
+      <path d="M290 228 l14 -4" stroke="#FF8A1F"/>
+    </g>
+
+    <!-- Pickles -->
+    <g fill="#8CC152">
+      <ellipse cx="130" cy="206" rx="26" ry="10"/>
+      <ellipse cx="270" cy="206" rx="26" ry="10"/>
+    </g>
+    <g stroke-width="2" fill="none">
+      <path d="M118 206 h24"/>
+      <path d="M258 206 h24"/>
+    </g>
+
+    <!-- Lettuce -->
+    <path d="M30 200 Q50 178 70 198 T110 198 T150 198 T190 198 T230 198 T270 198 T310 198 T350 198 Q362 190 370 200 L360 214 H40 Z"
+          fill="#3BB273"/>
+
+    <!-- Top bun (potato bun) -->
+    <path d="M40 185 C40 80 120 40 200 40 C280 40 360 80 360 185 Z" fill="#F7C873"/>
+
+    <!-- Bun shine -->
+    <path d="M85 120 C100 85 140 65 175 62" fill="none" stroke="#FFE3A8" stroke-width="10"/>
+
+    <!-- Toasted flour dusting (instead of sesame) -->
+    <g fill="#FFF4E0" stroke="none">
+      <circle cx="150" cy="92"  r="5"/>
+      <circle cx="205" cy="74"  r="4"/>
+      <circle cx="252" cy="96"  r="5"/>
+      <circle cx="182" cy="120" r="4"/>
+      <circle cx="230" cy="128" r="5"/>
+      <circle cx="118" cy="138" r="4"/>
+      <circle cx="286" cy="138" r="4"/>
+    </g>
+  </g>
+</svg>

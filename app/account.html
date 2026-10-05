@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My Account — Bun Voyage</title>
+  <link rel="icon" href="../assets/images/products/burger-classic.svg" />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Inter:wght@400;500;600;800&display=swap" rel="stylesheet" />
+
+  <!-- Base -->
+  <link rel="stylesheet" href="../css/base/reset.css" />
+  <link rel="stylesheet" href="../css/base/variables.css" />
+  <link rel="stylesheet" href="../css/base/typography.css" />
+  <!-- Components -->
+  <link rel="stylesheet" href="../css/components/buttons.css" />
+  <link rel="stylesheet" href="../css/components/navbar.css" />
+  <link rel="stylesheet" href="../css/components/cards.css" />
+  <link rel="stylesheet" href="../css/components/forms.css" />
+  <link rel="stylesheet" href="../css/components/modal.css" />
+  <link rel="stylesheet" href="../css/components/toast.css" />
+  <!-- Page -->
+  <link rel="stylesheet" href="../css/animations.css" />
+  <link rel="stylesheet" href="../css/pages/app.css" />
+  <link rel="stylesheet" href="../css/pages/account.css" />
+</head>
+
+<body class="app" data-page="account">
+
+  <header class="app-nav" id="appNav"></header>
+
+  <main class="app-main container">
+
+    <!-- ================= PROFILE HEADER ================= -->
+    <section class="profile-card">
+      <div class="profile-card__avatar">
+        <span class="avatar avatar--xl" id="profileAvatar" style="--c:var(--mustard)">JD</span>
+        <button class="profile-card__edit icon-btn" type="button" id="changeAvatarBtn" aria-label="Change avatar color">🎨</button>
+      </div>
+
+      <div class="profile-card__info">
+        <h1 id="profileName">Juan Dela Cruz</h1>
+        <p id="profileEmail">juan@email.com</p>
+        <div class="profile-card__badges">
+          <span class="badge" id="providerBadge">✉️ Email account</span>
+          <span class="badge badge--yellow" id="memberSince">Member since —</span>
+        </div>
+      </div>
+
+      <!-- Loyalty card -->
+      <div class="loyalty">
+        <div class="loyalty__head">
+          <span>🍔 Bun Points</span>
+          <strong id="pointsValue">0</strong>
+        </div>
+        <div class="progress progress--dark"><span id="pointsBar" style="width:0%"></span></div>
+        <small id="pointsText">Earn 1 point per ₱10 spent. 100 pts = free burger!</small>
+      </div>
+    </section>
+
+    <!-- ================= ACCOUNT LAYOUT ================= -->
+    <section class="account-layout">
+
+      <!-- Side tabs -->
+      <nav class="account-tabs" role="tablist" aria-label="Account sections">
+        <button class="account-tab is-active" role="tab" data-panel="profile" aria-selected="true">👤 <span>Profile</span></button>
+        <button class="account-tab" role="tab" data-panel="addresses" aria-selected="false">📍 <span>Addresses</span></button>
+        <button class="account-tab" role="tab" data-panel="security" aria-selected="false">🔒 <span>Security</span></button>
+        <button class="account-tab" role="tab" data-panel="preferences" aria-selected="false">⚙️ <span>Preferences</span></button>
+        <button class="account-tab account-tab--danger" type="button" id="logoutBtn">🚪 <span>Log out</span></button>
+      </nav>
+
+      <div class="account-panels">
+
+        <!-- ========== PROFILE ========== -->
+        <section class="panel account-panel is-active" id="panel-profile" role="tabpanel">
+          <h2 class="panel__title">Personal info</h2>
+          <form id="profileForm" novalidate>
+            <div class="form-grid">
+              <div class="field">
+                <label for="pfName">Full name</label>
+                <input type="text" id="pfName" name="name" autocomplete="name" required />
+                <small class="field__error"></small>
+              </div>
+              <div class="field">
+                <label for="pfPhone">Mobile number</label>
+                <input type="tel" id="pfPhone" name="phone" placeholder="09XX XXX XXXX" autocomplete="tel" />
+                <small class="field__error"></small>
+              </div>
+            </div>
+            <div class="form-grid">
+              <div class="field">
+                <label for="pfEmail">Email</label>
+                <input type="email" id="pfEmail" name="email" disabled />
+                <small class="field__hint">Email can't be changed in this demo.</small>
+              </div>
+              <div class="field">
+                <label for="pfBirthday">Birthday <span class="opt">Optional</span></label>
+                <input type="date" id="pfBirthday" name="birthday" />
+                <small class="field__hint">We'll send you a birthday treat 🎂</small>
+              </div>
+            </div>
+            <div class="panel__actions">
+              <button type="reset" class="btn btn--sm">Reset</button>
+              <button type="submit" class="btn btn--primary">Save changes</button>
+            </div>
+          </form>
+        </section>
+
+        <!-- ========== ADDRESSES ========== -->
+        <section class="panel account-panel" id="panel-addresses" role="tabpanel" hidden>
+          <div class="panel__head">
+            <h2 class="panel__title">Saved addresses</h2>
+            <button class="btn btn--sm btn--yellow" type="button" id="addAddressBtn">+ Add address</button>
+          </div>
+
+          <!-- Address cards (rendered by js/pages/account.js) -->
+          <ul class="address-list" id="addressList"></ul>
+
+          <p class="empty-inline" id="noAddress" hidden>No saved addresses yet.</p>
+
+          <!-- Add / edit address form -->
+          <form class="address-form" id="addressForm" hidden novalidate>
+            <input type="hidden" name="id" />
+            <div class="form-grid">
+              <div class="field">
+                <label for="adLabel">Label</label>
+                <select id="adLabel" name="label" class="select">
+                  <option>🏠 Home</option>
+                  <option>🏢 Work</option>
+                  <option>🎓 School</option>
+                  <option>📍 Other</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="adLandmark">Landmark <span class="opt">Optional</span></label>
+                <input type="text" id="adLandmark" name="landmark" />
+              </div>
+            </div>
+            <div class="field">
+              <label for="adAddress">Full address</label>
+              <input type="text" id="adAddress" name="address" placeholder="House no., street, barangay, city" required />
+              <small class="field__error"></small>
+            </div>
+            <label class="checkbox"><input type="checkbox" name="isDefault" /> <span>Set as default</span></label>
+            <div class="panel__actions">
+              <button type="button" class="btn btn--sm" id="cancelAddressBtn">Cancel</button>
+              <button type="submit" class="btn btn--primary">Save address</button>
+            </div>
+          </form>
+        </section>
+
+        <!-- ========== SECURITY ========== -->
+        <section class="panel account-panel" id="panel-security" role="tabpanel" hidden>
+          <h2 class="panel__title">Change password</h2>
+
+          <!-- Shown instead of the form for Google accounts -->
+          <div class="notice" id="googleNotice" hidden>
+            <span>🔐</span>
+            <p>You signed in with <strong>Google</strong>. Manage your password from your Google account.</p>
+          </div>
+
+          <form id="passwordForm" novalidate>
+            <div class="field">
+              <label for="pwCurrent">Current password</label>
+              <input type="password" id="pwCurrent" name="current" autocomplete="current-password" required />
+              <small class="field__error"></small>
+            </div>
+            <div class="form-grid">
+              <div class="field">
+                <label for="pwNew">New password</label>
+                <input type="password" id="pwNew" name="next" autocomplete="new-password" required />
+                <div class="pw-meter"><span></span></div>
+                <small class="field__error"></small>
+              </div>
+              <div class="field">
+                <label for="pwConfirm">Confirm new password</label>
+                <input type="password" id="pwConfirm" name="confirm" autocomplete="new-password" required />
+                <small class="field__error"></small>
+              </div>
+            </div>
+            <div class="panel__actions">
+              <button type="submit" class="btn btn--primary">Update password</button>
+            </div>
+          </form>
+
+          <h2 class="panel__title mt-32">Active session</h2>
+          <div class="session">
+            <span>💻</span>
+            <div><strong id="sessionDevice">This browser</strong><small id="sessionTime">Logged in —</small></div>
+            <span class="badge badge--green">Current</span>
+          </div>
+        </section>
+
+        <!-- ========== PREFERENCES ========== -->
+        <section class="panel account-panel" id="panel-preferences" role="tabpanel" hidden>
+          <h2 class="panel__title">Preferences</h2>
+          <form id="prefsForm">
+            <ul class="switch-list">
+              <li>
+                <div><strong>Order updates</strong><small>Notify me when my order status changes</small></div>
+                <label class="switch"><input type="checkbox" name="notifyOrders" checked /><span></span></label>
+              </li>
+              <li>
+                <div><strong>Promos &amp; deals</strong><small>Get exclusive discount codes</small></div>
+                <label class="switch"><input type="checkbox" name="notifyPromos" checked /><span></span></label>
+              </li>
+              <li>
+                <div><strong>Reduce motion</strong><small>Turn off 3D tilt &amp; floating animations</small></div>
+                <label class="switch"><input type="checkbox" name="reduceMotion" /><span></span></label>
+              </li>
+            </ul>
+
+            <div class="field">
+              <label for="defaultPayment">Default payment</label>
+              <select id="defaultPayment" name="defaultPayment" class="select">
+                <option value="gcash">GCash</option>
+                <option value="card">Card</option>
+                <option value="cod">Cash on delivery</option>
+              </select>
+            </div>
+
+            <div class="panel__actions">
+              <button type="submit" class="btn btn--primary">Save preferences</button>
+            </div>
+          </form>
+
+          <!-- Danger zone -->
+          <div class="danger-zone">
+            <h3>Danger zone</h3>
+            <p>Reset clears your cart, orders, and saved data in this browser (demo only).</p>
+            <button class="btn btn--sm btn--dark" type="button" id="resetDataBtn">♻️ Reset demo data</button>
+          </div>
+        </section>
+      </div>
+    </section>
+  </main>
+
+  <!-- ================= CONFIRM MODAL (logout / reset) ================= -->
+  <div class="modal" id="confirmModal" aria-hidden="true">
+    <div class="modal__overlay" data-close-modal></div>
+    <div class="modal__dialog modal__dialog--small" role="dialog" aria-modal="true" aria-labelledby="confirmTitle">
+      <div class="confirm">
+        <div class="confirm__icon" id="confirmIcon">🚪</div>
+        <h2 id="confirmTitle">Log out?</h2>
+        <p id="confirmText">You'll need to log in again to order.</p>
+        <div class="confirm__actions">
+          <button class="btn" data-close-modal type="button">Cancel</button>
+          <button class="btn btn--primary" id="confirmOkBtn" type="button">Yes, log out</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <nav class="bottom-nav" id="bottomNav" aria-label="Mobile"></nav>
+  <div class="toasts" id="toasts" aria-live="polite"></div>
+
+  <!-- ================= SCRIPTS ================= -->
+  <script src="../js/data/products.js"></script>
+  <script src="../js/core/storage.js"></script>
+  <script src="../js/core/auth.js"></script>
+  <script>Auth.guard();</script>
+  <script src="../js/core/cart.js"></script>
+  <script src="../js/core/orders.js"></script>
+  <script src="../js/ui/toast.js"></script>
+  <script src="../js/ui/modal.js"></script>
+  <script src="../js/ui/navbar.js"></script>
+  <script src="../js/pages/account.js"></script>
+</body>
+</html>

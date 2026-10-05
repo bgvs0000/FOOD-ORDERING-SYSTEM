@@ -1,0 +1,266 @@
+/* ==========================================================
+   HOME — menu page
+   ========================================================== */
+
+/* ==========================================================
+   PROMO BANNER
+   ========================================================== */
+.promo-banner {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+  align-items: center;
+  gap: var(--sp-5);
+  padding: clamp(24px, 4vw, 48px);
+  margin-bottom: var(--sp-6);
+  overflow: hidden;
+  color: var(--white);
+  background: var(--red);
+  border: var(--border);
+  border-radius: var(--r-lg);
+  box-shadow: var(--shadow-lg);
+}
+
+/* sunburst rays */
+.promo-banner::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  right: -10%;
+  width: 700px;
+  aspect-ratio: 1;
+  background: repeating-conic-gradient(
+    rgba(255, 255, 255, 0.1) 0deg 10deg,
+    transparent 10deg 20deg
+  );
+  border-radius: 50%;
+  transform: translateY(-50%);
+  animation: spin-slow 50s linear infinite;
+  pointer-events: none;
+}
+
+/* yellow circle behind the burger */
+.promo-banner::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  right: 6%;
+  width: clamp(200px, 26vw, 320px);
+  aspect-ratio: 1;
+  background: var(--mustard);
+  border: var(--border);
+  border-radius: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+.promo-banner__copy {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  gap: var(--sp-3);
+}
+
+.promo-banner__hi {
+  font-size: var(--fs-md);
+  font-weight: 700;
+}
+
+.promo-banner h1 {
+  font-size: clamp(2rem, 4.6vw, 3.6rem);
+  text-shadow: 4px 4px 0 var(--dark);
+}
+.promo-banner h1 .hl-box {
+  color: var(--dark);
+  text-shadow: none;
+}
+
+.promo-banner p { color: rgba(255, 255, 255, 0.9); }
+.promo-banner .code { color: var(--dark); background: var(--mustard); }
+
+.promo-banner__visual {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  min-height: 240px;
+}
+
+.promo-banner__burger { width: min(300px, 90%); }
+.promo-banner__burger .tilt__img { width: 100%; }
+
+.promo-banner__tag {
+  position: absolute;
+  top: 6%;
+  right: 4%;
+  padding: 10px 16px;
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  color: var(--dark);
+  background: var(--white);
+  border: var(--border);
+  border-radius: var(--r-sm);
+  box-shadow: var(--shadow-sm);
+}
+
+/* ==========================================================
+   DEALS ROW
+   ========================================================== */
+.deals {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--sp-4);
+  margin-bottom: var(--sp-7);
+}
+
+.deal {
+  --c: var(--mustard);
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  padding: var(--sp-4);
+  background: var(--white);
+  border: var(--border);
+  border-radius: var(--r);
+  box-shadow: var(--shadow-sm);
+  transition: transform var(--t) var(--ease-bounce), box-shadow var(--t);
+}
+.deal:hover {
+  transform: translateY(-4px) rotate(-1deg);
+  box-shadow: var(--shadow);
+}
+
+.deal--red    { --c: var(--red); }
+.deal--yellow { --c: var(--mustard); }
+.deal--green  { --c: var(--green); }
+
+.deal__emoji {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  min-width: 54px;               /* lumalapad kapag 2 emoji (🍔🍟) */
+  height: 54px;
+  padding: 0 8px;
+  font-size: 1.3rem;
+  white-space: nowrap;
+  background: var(--c);
+  border: var(--border);
+  border-radius: 16px;
+}
+
+.deal > div { flex: 1; min-width: 0; }
+.deal strong { display: block; line-height: 1.2; }
+.deal small {
+  display: block;
+  overflow: hidden;
+  font-size: var(--fs-xs);
+  color: var(--muted);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.deal__price {
+  flex-shrink: 0;
+  padding: 4px 10px;
+  font-family: var(--font-display);
+  font-size: 0.95rem;
+  background: var(--cream);
+  border: var(--border-thin);
+  border-radius: var(--r-sm);
+}
+
+/* ==========================================================
+   TOOLBAR (search + sort) — sticky on desktop
+   ========================================================== */
+.menu-toolbar {
+  position: sticky;
+  top: calc(var(--nav-h) + 12px);
+  z-index: var(--z-sticky);
+  display: flex;
+  gap: var(--sp-3);
+  margin-bottom: var(--sp-4);
+}
+
+.menu-toolbar .select {
+  width: auto;
+  min-width: 200px;
+  border-radius: var(--r-pill);
+  box-shadow: var(--shadow-sm);
+}
+
+/* ==========================================================
+   CATEGORY CHIPS
+   ========================================================== */
+#categoryChips { margin-bottom: var(--sp-6); }
+
+#categoryChips .chip {
+  padding: 12px 20px;
+  font-size: var(--fs-base);
+}
+
+/* ==========================================================
+   PRODUCT GRID (home extras)
+   ========================================================== */
+#productGrid .product-card {
+  animation: fade-up 0.5s var(--ease-out) both;
+  animation-delay: calc(var(--i, 0) * 0.05s);
+}
+
+/* highlight search match */
+.product-card mark {
+  padding: 0 2px;
+  background: var(--mustard);
+  border-radius: 3px;
+}
+
+/* ==========================================================
+   RESPONSIVE
+   ========================================================== */
+@media (max-width: 960px) {
+  .deals {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    padding: 4px 4px 12px;
+    margin-inline: -4px;
+    scrollbar-width: none;
+  }
+  .deals::-webkit-scrollbar { display: none; }
+  .deal {
+    flex: 0 0 280px;
+    scroll-snap-align: start;
+  }
+}
+
+@media (max-width: 760px) {
+  .promo-banner {
+    grid-template-columns: minmax(0, 1fr);
+    padding: 20px;
+    text-align: center;
+  }
+  .promo-banner__copy { justify-items: center; }
+
+  /* mas maliit na burger sa phone */
+  .promo-banner__visual { min-height: 0; order: -1; }
+  .promo-banner__burger { width: 170px; }
+  .promo-banner::after {
+    top: 18%;
+    right: 50%;
+    width: 170px;
+    transform: translate(50%, -50%);
+  }
+
+  /* hindi na sticky sa phone para hindi matakpan ang products */
+  .menu-toolbar {
+    position: static;
+    flex-direction: column;
+  }
+  .menu-toolbar .select { width: 100%; }
+
+  .deal { flex-basis: 260px; }
+  .deal__emoji {
+    min-width: 46px;
+    height: 46px;
+    font-size: 1.1rem;
+  }
+}

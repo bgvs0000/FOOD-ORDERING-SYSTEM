@@ -1,0 +1,337 @@
+/* ==========================================================
+   PRODUCT DETAILS
+   ========================================================== */
+.product {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: start;
+  gap: clamp(32px, 5vw, 64px);
+  margin-bottom: var(--sp-8);
+}
+
+/* ==========================================================
+   GALLERY (left)
+   ========================================================== */
+.product__gallery {
+  --accent: var(--mustard);       /* set by product.js from products.js */
+  position: sticky;
+  top: calc(var(--nav-h) + 24px);
+  display: grid;
+  place-items: center;
+  aspect-ratio: 1;
+  padding: var(--sp-6);
+  background: var(--white);
+  border: var(--border);
+  border-radius: var(--r-lg);
+  box-shadow: var(--shadow-lg);
+  overflow: hidden;
+}
+
+/* polka dots */
+.product__gallery::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(rgba(30, 30, 30, 0.1) 2px, transparent 2.5px);
+  background-size: 22px 22px;
+  pointer-events: none;
+}
+
+/* big colored circle behind the food */
+.product__bg {
+  position: absolute;
+  width: 78%;
+  aspect-ratio: 1;
+  background: var(--accent);
+  border: var(--border);
+  border-radius: 50%;
+  box-shadow: var(--shadow);
+  transition: background var(--t-slow);
+}
+/* dashed orbit ring */
+.product__bg::after {
+  content: "";
+  position: absolute;
+  inset: -22px;
+  border: 3px dashed var(--dark);
+  border-radius: 50%;
+  opacity: 0.25;
+  animation: spin-slow 30s linear infinite;
+}
+
+.product__img {
+  position: relative;
+  z-index: 1;
+  width: 78%;
+  cursor: grab;
+}
+.product__img .tilt__img {
+  width: 100%;
+  filter: drop-shadow(14px 18px 0 rgba(30, 30, 30, 0.25));
+  animation: pop-in 0.6s var(--ease-bounce) both;
+}
+
+.product__tag {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  z-index: 2;
+  padding: 8px 16px;
+  font-size: var(--fs-sm);
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--white);
+  background: var(--red);
+  border: var(--border);
+  border-radius: var(--r-pill);
+  box-shadow: var(--shadow-sm);
+  transform: rotate(-6deg);
+}
+
+.product__hint {
+  position: absolute;
+  bottom: 16px;
+  z-index: 2;
+  padding: 6px 14px;
+  font-size: var(--fs-xs);
+  font-weight: 700;
+  background: var(--white);
+  border: var(--border-thin);
+  border-radius: var(--r-pill);
+  opacity: 0.85;
+}
+
+/* ==========================================================
+   INFO (right)
+   ========================================================== */
+.product__info {
+  display: grid;
+  justify-items: start;
+  gap: var(--sp-4);
+}
+
+.product__name {
+  font-size: clamp(2.2rem, 5vw, 3.8rem);
+  line-height: 0.95;
+}
+
+.product__meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  font-size: var(--fs-sm);
+  font-weight: 600;
+}
+.rating {
+  padding: 4px 12px;
+  background: var(--mustard);
+  border: var(--border-thin);
+  border-radius: var(--r-pill);
+}
+.rating small { font-weight: 600; color: var(--muted); }
+
+.product__desc {
+  font-size: var(--fs-md);
+  color: var(--muted);
+}
+
+.product__price {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+}
+.product__price span {
+  font-family: var(--font-display);
+  font-size: 2.6rem;
+  line-height: 1;
+  color: var(--red);
+  text-shadow: 3px 3px 0 var(--dark);
+}
+.product__price small {
+  font-size: var(--fs-sm);
+  font-weight: 600;
+  color: var(--muted);
+}
+
+.product__form {
+  width: 100%;
+  display: grid;
+  gap: var(--sp-5);
+  margin-top: var(--sp-2);
+}
+.product__form .field { margin-bottom: 0; }
+
+/* ==========================================================
+   OPTION GROUPS
+   ========================================================== */
+.opt-group {
+  padding: var(--sp-5);
+  background: var(--white);
+  border: var(--border);
+  border-radius: var(--r);
+}
+.opt-group legend {
+  float: left;           /* para gumana ang margin sa legend */
+  width: 100%;
+  margin-bottom: var(--sp-4);
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  text-transform: uppercase;
+}
+.opt-group legend + * { clear: both; }
+
+/* ---------- Size cards (radio) ---------- */
+.opt-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--sp-3);
+}
+
+.opt-card input { position: absolute; opacity: 0; pointer-events: none; }
+.opt-card span {
+  display: grid;
+  justify-items: center;
+  gap: 2px;
+  padding: 14px 8px;
+  text-align: center;
+  background: var(--cream);
+  border: var(--border);
+  border-radius: var(--r-sm);
+  cursor: pointer;
+  transition: transform var(--t-fast), box-shadow var(--t-fast), background var(--t-fast);
+}
+.opt-card span:hover { transform: translateY(-3px); }
+.opt-card small { font-size: var(--fs-xs); font-weight: 700; color: var(--muted); }
+
+.opt-card input:checked + span {
+  background: var(--mustard);
+  box-shadow: var(--shadow-sm);
+  transform: translate(-2px, -2px);
+}
+.opt-card input:checked + span small { color: var(--dark); }
+.opt-card input:focus-visible + span { outline: 3px dashed var(--red); outline-offset: 3px; }
+
+/* ---------- Add-ons (checkbox rows) ---------- */
+.addon-list {
+  display: grid;
+  gap: var(--sp-2);
+}
+
+.addon {
+  position: relative;
+  display: grid;
+  grid-template-columns: 26px 1fr auto;
+  align-items: center;
+  gap: var(--sp-3);
+  padding: 12px 14px;
+  border: var(--border-thin);
+  border-color: var(--line);
+  border-radius: var(--r-sm);
+  cursor: pointer;
+  transition: background var(--t-fast), border-color var(--t-fast);
+}
+.addon:hover { background: var(--cream); border-color: var(--dark); }
+
+.addon input { position: absolute; opacity: 0; pointer-events: none; }
+
+.addon__box {
+  display: grid;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  background: var(--white);
+  border: var(--border-thin);
+  border-radius: 7px;
+  transition: background var(--t-fast);
+}
+.addon__box::after {
+  content: "✓";
+  font-weight: 900;
+  color: var(--white);
+  transform: scale(0);
+  transition: transform var(--t-fast) var(--ease-bounce);
+}
+
+.addon__name  { font-weight: 700; }
+.addon__price { font-weight: 800; color: var(--muted); }
+
+.addon:has(input:checked) {
+  background: #FFF6DD;
+  border-color: var(--dark);
+}
+.addon input:checked ~ .addon__box { background: var(--red); }
+.addon input:checked ~ .addon__box::after { transform: scale(1); }
+.addon input:checked ~ .addon__price { color: var(--dark); }
+.addon input:focus-visible ~ .addon__box { outline: 3px dashed var(--red); outline-offset: 2px; }
+
+/* ==========================================================
+   BUY BAR (qty + add to cart)
+   ========================================================== */
+.buy-bar {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  padding: var(--sp-4);
+  background: var(--dark);
+  border: var(--border);
+  border-radius: var(--r-pill);
+  box-shadow: var(--shadow-red);
+}
+
+.buy-bar__add {
+  flex: 1;
+  --sh: var(--mustard);
+}
+
+/* "pop" sa total kapag nagbago (class added by JS) */
+#lineTotal { display: inline-block; }
+#lineTotal.bump { animation: bounce 0.4s var(--ease-bounce); }
+
+.stock-note {
+  font-size: var(--fs-sm);
+  font-weight: 700;
+  color: var(--muted);
+}
+.stock-note.is-low { color: var(--red); }
+
+/* ==========================================================
+   RELATED
+   ========================================================== */
+.related {
+  padding-top: var(--sp-7);
+  border-top: 3px dashed var(--line);
+}
+
+/* ==========================================================
+   RESPONSIVE
+   ========================================================== */
+@media (max-width: 900px) {
+  .product { grid-template-columns: 1fr; }
+
+  .product__gallery {
+    position: relative;
+    top: 0;
+    max-width: 520px;
+    width: 100%;
+    margin-inline: auto;
+  }
+
+  /* sticky buy bar sa mobile, above the bottom nav */
+  .buy-bar {
+    position: sticky;
+    bottom: calc(var(--bottom-nav-h) + 24px);
+    z-index: var(--z-fab);
+  }
+}
+
+@media (max-width: 480px) {
+  .opt-grid { grid-template-columns: 1fr 1fr 1fr; gap: var(--sp-2); }
+  .opt-card span { padding: 10px 4px; font-size: var(--fs-sm); }
+
+  .buy-bar { padding: 8px; gap: 8px; }
+  .buy-bar .qty__btn { width: 36px; height: 40px; }
+  .buy-bar .qty__input { width: 30px; }
+  .buy-bar__add { padding: 14px 12px; font-size: var(--fs-sm); }
+}

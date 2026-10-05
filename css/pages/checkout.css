@@ -1,0 +1,241 @@
+/* ==========================================================
+   CHECKOUT
+   ========================================================== */
+.checkout-layout {
+  display: grid;
+  grid-template-columns: 1fr 400px;
+  align-items: start;
+  gap: var(--sp-6);
+}
+
+.checkout-main { display: grid; }
+
+/* panels slide in one after another */
+.checkout-main .panel {
+  animation: fade-up 0.5s var(--ease-out) both;
+}
+.checkout-main .panel:nth-child(2) { animation-delay: 0.06s; }
+.checkout-main .panel:nth-child(3) { animation-delay: 0.12s; }
+.checkout-main .panel:nth-child(4) { animation-delay: 0.18s; }
+.checkout-main .panel:nth-child(5) { animation-delay: 0.24s; }
+
+.checkout-main textarea { margin: 0; }
+
+#addressFields { animation: fade-up 0.35s var(--ease-out); }
+#scheduleField { margin-top: var(--sp-2); animation: fade-up 0.35s var(--ease-out); }
+
+/* ==========================================================
+   PICKUP INFO
+   ========================================================== */
+.pickup-info {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-4);
+  padding: var(--sp-4);
+  margin-bottom: var(--sp-4);
+  background: var(--cream);
+  border: var(--border);
+  border-radius: var(--r);
+  animation: fade-up 0.35s var(--ease-out);
+}
+.pickup-info > span {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 52px;
+  height: 52px;
+  font-size: 1.5rem;
+  background: var(--red);
+  border: var(--border);
+  border-radius: 50%;
+}
+.pickup-info p { font-size: var(--fs-sm); color: var(--muted); }
+
+/* ==========================================================
+   PAYMENT METHOD CARDS
+   ========================================================== */
+.pay-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--sp-3);
+  margin-bottom: var(--sp-5);
+}
+
+.pay-card input { position: absolute; opacity: 0; pointer-events: none; }
+
+.pay-card__body {
+  position: relative;
+  display: grid;
+  justify-items: center;
+  gap: 4px;
+  padding: var(--sp-4) var(--sp-3);
+  text-align: center;
+  background: var(--white);
+  border: var(--border);
+  border-radius: var(--r);
+  cursor: pointer;
+  transition: transform var(--t-fast), box-shadow var(--t-fast), background var(--t-fast);
+}
+.pay-card__body:hover { transform: translateY(-3px); }
+.pay-card__body small { font-size: var(--fs-xs); color: var(--muted); }
+
+.pay-card__icon {
+  --c: var(--mustard);
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  margin-bottom: 4px;
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  color: var(--dark);
+  background: var(--c);
+  border: var(--border);
+  border-radius: 14px;
+  transition: transform var(--t) var(--ease-bounce);
+}
+
+/* selected */
+.pay-card input:checked + .pay-card__body {
+  background: var(--cream);
+  box-shadow: var(--shadow);
+  transform: translate(-3px, -3px);
+}
+.pay-card input:checked + .pay-card__body .pay-card__icon {
+  transform: rotate(-10deg) scale(1.1);
+}
+/* check badge */
+.pay-card input:checked + .pay-card__body::after {
+  content: "✓";
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  font-weight: 900;
+  color: var(--white);
+  background: var(--green);
+  border: var(--border-thin);
+  border-radius: 50%;
+  animation: pop-in 0.3s var(--ease-bounce);
+}
+.pay-card input:focus-visible + .pay-card__body { outline: 3px dashed var(--red); outline-offset: 3px; }
+
+.pay-fields { animation: fade-up 0.35s var(--ease-out); }
+
+/* ==========================================================
+   MOCK CREDIT CARD (live preview)
+   ========================================================== */
+.mock-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: min(360px, 100%);
+  aspect-ratio: 1.6;
+  padding: 22px 24px;
+  margin: 0 auto var(--sp-5);
+  overflow: hidden;
+  color: var(--white);
+  background: var(--dark);
+  border: var(--border);
+  border-radius: 20px;
+  box-shadow: var(--shadow-red);
+  transform: rotate(-2deg);
+  transition: transform var(--t) var(--ease-bounce);
+}
+.mock-card:hover { transform: rotate(0) scale(1.02); }
+
+/* decorative circles */
+.mock-card::before,
+.mock-card::after {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+}
+.mock-card::before {
+  top: -60px;
+  right: -40px;
+  width: 200px;
+  height: 200px;
+  background: var(--red);
+  border: var(--border);
+}
+.mock-card::after {
+  bottom: -80px;
+  right: 40px;
+  width: 160px;
+  height: 160px;
+  background: var(--mustard);
+  border: var(--border);
+  opacity: 0.9;
+}
+
+.mock-card > * { position: relative; z-index: 1; }
+
+.mock-card__chip {
+  width: 46px;
+  height: 34px;
+  background:
+    linear-gradient(90deg, transparent 45%, rgba(0, 0, 0, 0.25) 45% 55%, transparent 55%),
+    linear-gradient(0deg, transparent 45%, rgba(0, 0, 0, 0.25) 45% 55%, transparent 55%),
+    var(--mustard);
+  border: 2px solid var(--dark);
+  border-radius: 8px;
+}
+
+.mock-card__num {
+  font-family: ui-monospace, "SFMono-Regular", Consolas, monospace;
+  font-size: clamp(1rem, 3.6vw, 1.35rem);
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.4);
+}
+
+.mock-card__row {
+  display: flex;
+  justify-content: space-between;
+  font-size: var(--fs-sm);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+/* brand label (JS sets data-brand="visa" / "mastercard") */
+.mock-card[data-brand]::after { opacity: 0.9; }
+.mock-card[data-brand="visa"] { background: #1A3A8F; }
+.mock-card[data-brand="mastercard"] { background: #2B2B2B; }
+
+/* ==========================================================
+   SUMMARY tweaks
+   ========================================================== */
+.checkout-layout .summary .mini-list {
+  padding-bottom: var(--sp-2);
+}
+
+#placeOrderBtn { margin-top: var(--sp-2); }
+
+/* ==========================================================
+   RESPONSIVE
+   ========================================================== */
+@media (max-width: 1000px) {
+  .checkout-layout { grid-template-columns: 1fr; }
+  .summary { order: 2; }
+}
+
+@media (max-width: 520px) {
+  .pay-grid { grid-template-columns: 1fr; }
+  .pay-card__body {
+    grid-template-columns: auto 1fr;
+    justify-items: start;
+    text-align: left;
+    column-gap: var(--sp-3);
+  }
+  .pay-card__icon {
+    grid-row: span 2;
+    margin-bottom: 0;
+  }
+}

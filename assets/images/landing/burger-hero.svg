@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 460">
+  <g stroke="#1E1E1E" stroke-width="6" stroke-linejoin="round" stroke-linecap="round">
+
+    <!-- ===== Bottom bun ===== -->
+    <rect x="50" y="382" width="300" height="60" rx="28" fill="#F4A23A"/>
+
+    <!-- ===== Patty ===== -->
+    <rect x="40" y="328" width="320" height="62" rx="30" fill="#6B3A1F"/>
+    <!-- grill marks -->
+    <g stroke="#4A2412" stroke-width="5">
+      <path d="M100 352 l16 16"/>
+      <path d="M170 352 l16 16"/>
+      <path d="M240 352 l16 16"/>
+      <path d="M300 352 l16 16"/>
+    </g>
+
+    <!-- ===== Cheese (extra drippy) ===== -->
+    <path d="M42 318 H358 L346 342 L330 326 L314 362 L296 328 L276 348 L262 328
+             H150 L136 358 L118 328 L100 346 L84 328 L66 344 Z"
+          fill="#FFC233"/>
+
+    <!-- ===== Bacon (wavy strip) ===== -->
+    <path d="M44 300 Q74 284 104 300 T164 300 T224 300 T284 300 T356 300
+             L356 318 Q326 334 296 318 T236 318 T176 318 T116 318 T44 318 Z"
+          fill="#D9604A"/>
+    <!-- bacon fat stripe -->
+    <path d="M56 309 Q84 296 112 309 T168 309 T224 309 T280 309 T344 309"
+          fill="none" stroke="#FFD8C2" stroke-width="5"/>
+
+    <!-- ===== Tomato ===== -->
+    <rect x="58" y="264" width="284" height="30" rx="15" fill="#FF4B3E"/>
+    <g fill="#FF8A7A" stroke="none">
+      <circle cx="110" cy="279" r="5"/>
+      <circle cx="200" cy="279" r="5"/>
+      <circle cx="290" cy="279" r="5"/>
+    </g>
+
+    <!-- ===== Lettuce ===== -->
+    <path d="M30 260 Q50 238 70 258 T110 258 T150 258 T190 258 T230 258 T270 258 T310 258 T350 258
+             Q362 250 370 260 L360 274 H40 Z"
+          fill="#3BB273"/>
+
+    <!-- ===== Flag pick stick (drawn before the bun so it looks "stuck in") ===== -->
+    <rect x="196" y="16" width="8" height="140" rx="3" fill="#E8C48A" stroke-width="4"/>
+
+    <!-- ===== Top bun ===== -->
+    <path d="M40 245 C40 140 120 100 200 100 C280 100 360 140 360 245 Z" fill="#F4A23A"/>
+
+    <!-- bun shine -->
+    <path d="M85 180 C100 145 140 125 175 122" fill="none" stroke="#FFD08A" stroke-width="10"/>
+
+    <!-- sesame seeds -->
+    <g fill="#FFF4E0" stroke-width="3">
+      <ellipse cx="140" cy="150" rx="9" ry="5" transform="rotate(-20 140 150)"/>
+      <ellipse cx="250" cy="146" rx="9" ry="5" transform="rotate(16 250 146)"/>
+      <ellipse cx="275" cy="168" rx="9" ry="5" transform="rotate(24 275 168)"/>
+      <ellipse cx="170" cy="185" rx="9" ry="5" transform="rotate(-10 170 185)"/>
+      <ellipse cx="235" cy="188" rx="9" ry="5" transform="rotate(10 235 188)"/>
+      <ellipse cx="110" cy="200" rx="9" ry="5" transform="rotate(-30 110 200)"/>
+      <ellipse cx="300" cy="204" rx="9" ry="5" transform="rotate(30 300 204)"/>
+    </g>
+
+    <!-- ===== Flag ===== -->
+    <path d="M204 22 H292 L276 46 L292 70 H204 Z" fill="#FF4B3E"/>
+    <text x="242" y="55"
+          font-family="Archivo Black, Arial Black, Arial, sans-serif"
+          font-size="22" font-weight="900" text-anchor="middle"
+          fill="#FFF4E0" stroke="none">BV</text>
+
+    <!-- stick top ball -->
+    <circle cx="200" cy="16" r="9" fill="#FFC233"/>
+  </g>
+</svg>

@@ -1,0 +1,420 @@
+/* ==========================================================
+   HISTORY
+   ========================================================== */
+
+/* ==========================================================
+   STATS
+   ========================================================== */
+.history-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--sp-4);
+  margin-bottom: var(--sp-6);
+}
+
+.h-stat {
+  --c: var(--mustard);
+  display: flex;
+  align-items: center;
+  gap: var(--sp-4);
+  padding: var(--sp-5);
+  background: var(--white);
+  border: var(--border);
+  border-radius: var(--r-lg);
+  box-shadow: var(--shadow);
+  transition: transform var(--t) var(--ease-bounce);
+}
+.h-stat:hover { transform: translateY(-4px) rotate(-1deg); }
+.h-stat--red    { --c: var(--red); }
+.h-stat--yellow { --c: var(--mustard); }
+.h-stat--green  { --c: var(--green); }
+
+.h-stat__icon {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 60px;
+  height: 60px;
+  font-size: 1.6rem;
+  background: var(--c);
+  border: var(--border);
+  border-radius: 18px;
+}
+.h-stat > div { min-width: 0; }
+.h-stat small {
+  display: block;
+  font-size: var(--fs-xs);
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.h-stat strong {
+  display: block;
+  font-family: var(--font-display);
+  font-size: clamp(1.3rem, 2.6vw, 1.9rem);
+  line-height: 1.1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ==========================================================
+   TOOLBAR
+   ========================================================== */
+.history-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-4);
+  margin-bottom: var(--sp-6);
+}
+.history-toolbar .chips { padding-bottom: 4px; }
+
+.history-toolbar__right {
+  display: flex;
+  gap: var(--sp-3);
+}
+.history-toolbar__right .search { min-width: 240px; }
+.history-toolbar__right .select {
+  width: auto;
+  padding-block: 10px;
+  border-radius: var(--r-pill);
+  box-shadow: var(--shadow-sm);
+}
+
+/* ==========================================================
+   LIST — grouped by date
+   <div class="history-group">
+     <h3 class="history-group__date">Today</h3>
+     <article class="history-card">...</article>
+   </div>
+   ========================================================== */
+.history-list {
+  display: grid;
+  gap: var(--sp-6);
+}
+
+.history-group {
+  display: grid;
+  gap: var(--sp-4);
+}
+
+.history-group__date {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  font-size: 1rem;
+  color: var(--muted);
+}
+.history-group__date::after {
+  content: "";
+  flex: 1;
+  height: 3px;
+  background: repeating-linear-gradient(90deg, var(--line) 0 10px, transparent 10px 18px);
+}
+
+/* ==========================================================
+   HISTORY CARD
+   <article class="history-card" data-status="COMPLETED">
+     <div class="history-card__imgs"><img><img><span>+2</span></div>
+     <div class="history-card__info">
+       <div class="history-card__top"><strong>#BV-1042</strong><span class="status-pill"></span></div>
+       <p class="history-card__items">Classic Smash ×2, Crispy Fries</p>
+       <small class="history-card__meta">2:45 PM · Delivery · GCash</small>
+       <div class="history-card__rating">★★★★★</div>
+     </div>
+     <div class="history-card__right">
+       <strong class="history-card__total">₱598</strong>
+       <div class="history-card__actions">...</div>
+     </div>
+   </article>
+   ========================================================== */
+.history-card {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: var(--sp-5);
+  padding: var(--sp-4) var(--sp-5);
+  background: var(--white);
+  border: var(--border);
+  border-radius: var(--r);
+  box-shadow: var(--shadow-sm);
+  animation: fade-up 0.45s var(--ease-out) both;
+  animation-delay: calc(var(--i, 0) * 0.05s);
+  transition: transform var(--t), box-shadow var(--t);
+}
+.history-card:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: var(--shadow);
+}
+
+.history-card[data-status="CANCELLED"] {
+  background: #F7F3EC;
+}
+.history-card[data-status="CANCELLED"] .history-card__imgs { filter: grayscale(1); opacity: 0.6; }
+.history-card[data-status="CANCELLED"] .history-card__total {
+  color: var(--muted);
+  text-decoration: line-through;
+}
+
+/* stacked product thumbnails */
+.history-card__imgs {
+  display: flex;
+  align-items: center;
+}
+.history-card__imgs img,
+.history-card__imgs span {
+  width: 56px;
+  height: 56px;
+  padding: 6px;
+  object-fit: contain;
+  background: var(--cream);
+  border: var(--border);
+  border-radius: 50%;
+}
+.history-card__imgs > * + * { margin-left: -18px; }
+.history-card__imgs span {
+  display: grid;
+  place-items: center;
+  font-size: var(--fs-sm);
+  font-weight: 800;
+  background: var(--mustard);
+}
+
+.history-card__info {
+  display: grid;
+  gap: 4px;
+  min-width: 0;
+}
+.history-card__top {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+}
+.history-card__top strong {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+}
+.history-card__items {
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.history-card__meta {
+  font-size: var(--fs-xs);
+  font-weight: 600;
+  color: var(--muted);
+}
+.history-card__rating {
+  font-size: var(--fs-sm);
+  letter-spacing: 2px;
+  color: var(--mustard-dk);
+}
+
+.history-card__right {
+  display: grid;
+  justify-items: end;
+  gap: 10px;
+}
+.history-card__total {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  line-height: 1;
+}
+.history-card__actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: var(--sp-2);
+}
+
+/* ==========================================================
+   RECEIPT (modal)
+   ========================================================== */
+.receipt {
+  position: relative;
+  padding: var(--sp-5);
+  font-family: ui-monospace, "SFMono-Regular", Consolas, monospace;
+  font-size: var(--fs-sm);
+  background: var(--white);
+  border: var(--border);
+  border-radius: var(--r-sm);
+  /* zigzag torn-paper bottom */
+  -webkit-mask:
+    linear-gradient(#000 0 0) top / 100% calc(100% - 12px) no-repeat,
+    conic-gradient(from -45deg at bottom, #0000, #000 1deg 89deg, #0000 90deg) bottom / 20px 12px repeat-x;
+          mask:
+    linear-gradient(#000 0 0) top / 100% calc(100% - 12px) no-repeat,
+    conic-gradient(from -45deg at bottom, #0000, #000 1deg 89deg, #0000 90deg) bottom / 20px 12px repeat-x;
+  padding-bottom: calc(var(--sp-5) + 12px);
+}
+
+.receipt__head {
+  display: grid;
+  justify-items: center;
+  gap: 4px;
+  padding-bottom: var(--sp-4);
+  text-align: center;
+  border-bottom: 2px dashed var(--dark);
+}
+.receipt__head h2 { font-size: 1.4rem; }
+.receipt__head small { color: var(--muted); }
+
+.receipt__meta {
+  display: grid;
+  gap: 4px;
+  padding: var(--sp-3) 0;
+  border-bottom: 2px dashed var(--dark);
+}
+.receipt__meta div,
+.receipt__totals div {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--sp-3);
+}
+.receipt__meta span { color: var(--muted); }
+
+/* <li><span>2× Classic Smash<small>Large · Bacon</small></span><b>₱378</b></li> */
+.receipt__items {
+  display: grid;
+  gap: 8px;
+  padding: var(--sp-3) 0;
+  border-bottom: 2px dashed var(--dark);
+}
+.receipt__items li {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--sp-3);
+}
+.receipt__items small {
+  display: block;
+  font-size: var(--fs-xs);
+  color: var(--muted);
+}
+
+.receipt__totals {
+  display: grid;
+  gap: 4px;
+  padding: var(--sp-3) 0;
+}
+.receipt__grand {
+  margin-top: 6px;
+  padding-top: 8px;
+  font-size: 1.15rem;
+  font-weight: 800;
+  border-top: 2px solid var(--dark);
+}
+
+.receipt__thanks {
+  margin: var(--sp-3) auto;
+  text-align: center;
+  font-weight: 700;
+}
+
+.receipt__barcode {
+  height: 48px;
+  margin: 0 var(--sp-5);
+  background: repeating-linear-gradient(
+    90deg,
+    var(--dark) 0 2px, transparent 2px 4px,
+    var(--dark) 4px 7px, transparent 7px 9px,
+    var(--dark) 9px 10px, transparent 10px 13px
+  );
+}
+
+.receipt__actions {
+  display: flex;
+  justify-content: center;
+  gap: var(--sp-3);
+  margin-top: var(--sp-5);
+}
+
+/* ==========================================================
+   RATE (modal)
+   ========================================================== */
+.rate {
+  display: grid;
+  justify-items: center;
+  gap: var(--sp-4);
+  text-align: center;
+}
+.rate h2 { font-size: 1.6rem; padding-inline: 40px; }
+.rate p  { color: var(--muted); }
+.rate .pill-toggles { justify-content: center; }
+.rate textarea { width: 100%; }
+
+/* Stars: reversed order so hovering highlights all stars to the left */
+.stars {
+  display: flex;
+  flex-direction: row-reverse;
+  gap: 6px;
+}
+.stars input { position: absolute; opacity: 0; pointer-events: none; }
+.stars label {
+  font-size: 2.6rem;
+  line-height: 1;
+  color: var(--line);
+  -webkit-text-stroke: 2px var(--dark);
+  cursor: pointer;
+  transition: transform var(--t-fast) var(--ease-bounce), color var(--t-fast);
+}
+.stars label:hover,
+.stars label:hover ~ label,
+.stars input:checked ~ label {
+  color: var(--mustard);
+}
+.stars label:hover { transform: scale(1.25) rotate(-10deg); }
+.stars input:focus-visible + label { outline: 3px dashed var(--red); outline-offset: 2px; }
+
+/* ==========================================================
+   PRINT — resibo lang ang lalabas
+   ========================================================== */
+@media print {
+  body * { visibility: hidden; }
+  #receipt,
+  #receipt * { visibility: visible; }
+  #receipt {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 80mm;
+    border: none;
+    -webkit-mask: none;
+            mask: none;
+  }
+}
+
+/* ==========================================================
+   RESPONSIVE
+   ========================================================== */
+@media (max-width: 860px) {
+  .history-stats {
+    grid-template-columns: 1fr 1fr;
+  }
+  .history-stats .h-stat:last-child { grid-column: 1 / -1; }
+
+  .history-toolbar__right { width: 100%; }
+  .history-toolbar__right .search { flex: 1; min-width: 0; }
+}
+
+@media (max-width: 640px) {
+  .history-card {
+    grid-template-columns: 1fr;
+    gap: var(--sp-3);
+  }
+  .history-card__right {
+    grid-template-columns: auto 1fr;
+    align-items: center;
+    justify-items: start;
+    padding-top: var(--sp-3);
+    border-top: 2px dashed var(--line);
+  }
+  .history-card__actions { justify-self: end; }
+
+  .history-stats { grid-template-columns: 1fr; }
+  .h-stat { padding: var(--sp-4); }
+}

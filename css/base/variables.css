@@ -1,0 +1,90 @@
+/* ==========================================================
+   DESIGN TOKENS — Bun Voyage
+   Flat / Neo-brutalist: bold colors + thick borders + hard shadows
+   ========================================================== */
+:root {
+  /* ---------- Brand colors ---------- */
+  --cream:    #FFF4E0;   /* main background */
+  --cream-2:  #FFE8C2;   /* alt section background */
+  --red:      #FF4B3E;   /* primary / CTA */
+  --red-dk:   #D93A2F;
+  --mustard:  #FFC233;   /* highlight / accent */
+  --mustard-dk:#E5A800;
+  --green:    #3BB273;   /* success */
+  --blue:     #3B8EEA;   /* info */
+  --bun:      #F4A23A;
+  --patty:    #6B3A1F;
+  --dark:     #1E1E1E;   /* text + borders */
+  --white:    #FFFFFF;
+  --muted:    #6B6257;   /* secondary text */
+  --line:     #E8DCC6;   /* soft dividers */
+
+  /* ---------- Status colors (order tracking) ---------- */
+  --st-pending:   var(--mustard);
+  --st-confirmed: var(--blue);
+  --st-preparing: #FF8A1F;
+  --st-delivery:  #A66BFF;
+  --st-completed: var(--green);
+  --st-cancelled: #9A948C;
+
+  /* ---------- Typography ---------- */
+  --font-display: "Archivo Black", "Arial Black", Impact, sans-serif;
+  --font-body: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+
+  --fs-xs:   0.75rem;
+  --fs-sm:   0.875rem;
+  --fs-base: 1rem;
+  --fs-md:   1.125rem;
+  --fs-lg:   1.375rem;
+
+  /* ---------- Borders ---------- */
+  --bw: 3px;
+  --border: var(--bw) solid var(--dark);
+  --border-thin: 2px solid var(--dark);
+
+  /* ---------- Hard shadows (ang "pop" ng flat design) ---------- */
+  --shadow-xs: 2px 2px 0 var(--dark);
+  --shadow-sm: 3px 3px 0 var(--dark);
+  --shadow:    6px 6px 0 var(--dark);
+  --shadow-lg: 10px 10px 0 var(--dark);
+  --shadow-red: 6px 6px 0 var(--red);
+
+  /* ---------- Radius ---------- */
+  --r-xs:   6px;
+  --r-sm:   10px;
+  --r:      18px;
+  --r-lg:   28px;
+  --r-pill: 999px;
+
+  /* ---------- Layout & spacing ---------- */
+  --container: 1200px;
+  --gutter:  clamp(16px, 4vw, 48px);
+  --section: clamp(72px, 10vw, 140px);
+  --nav-h:   76px;
+  --bottom-nav-h: 68px;
+
+  --sp-1: 4px;
+  --sp-2: 8px;
+  --sp-3: 12px;
+  --sp-4: 16px;
+  --sp-5: 24px;
+  --sp-6: 32px;
+  --sp-7: 48px;
+  --sp-8: 64px;
+
+  /* ---------- Motion ---------- */
+  --ease-out:    cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --t-fast: 0.15s;
+  --t:      0.3s;
+  --t-slow: 0.6s;
+
+  /* ---------- Layers (z-index) ---------- */
+  --z-base:    1;
+  --z-sticky:  50;
+  --z-nav:     100;
+  --z-fab:     150;
+  --z-modal:   1000;
+  --z-toast:   1100;
+  --z-confetti:1200;
+}

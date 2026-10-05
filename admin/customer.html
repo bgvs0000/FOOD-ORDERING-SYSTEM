@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Customers — Bun Voyage Admin</title>
+  <meta name="robots" content="noindex" />
+  <link rel="icon" href="../assets/images/products/burger-classic.svg" />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Inter:wght@400;500;600;800&display=swap" rel="stylesheet" />
+
+  <!-- Base -->
+  <link rel="stylesheet" href="../css/base/reset.css" />
+  <link rel="stylesheet" href="../css/base/variables.css" />
+  <link rel="stylesheet" href="../css/base/typography.css" />
+  <!-- Components -->
+  <link rel="stylesheet" href="../css/components/buttons.css" />
+  <link rel="stylesheet" href="../css/components/cards.css" />
+  <link rel="stylesheet" href="../css/components/forms.css" />
+  <link rel="stylesheet" href="../css/components/modal.css" />
+  <link rel="stylesheet" href="../css/components/toast.css" />
+  <!-- Page -->
+  <link rel="stylesheet" href="../css/animations.css" />
+  <link rel="stylesheet" href="../css/pages/app.css" />
+  <link rel="stylesheet" href="../css/pages/admin.css" />
+</head>
+
+<body class="admin" data-admin-page="customers">
+
+  <aside class="admin-sidebar" id="adminSidebar"></aside>
+
+  <div class="admin-main">
+    <header class="admin-topbar" id="adminTopbar"></header>
+
+    <main class="admin-content">
+
+      <!-- ================= PAGE HEAD ================= -->
+      <div class="admin-head">
+        <div>
+          <p class="admin-head__date" id="customerCountText">0 customers</p>
+          <h1>Cus<span class="hl-red">tomers</span></h1>
+        </div>
+        <div class="admin-head__actions">
+          <button class="btn btn--sm" id="exportBtn" type="button">⬇ Export CSV</button>
+        </div>
+      </div>
+
+      <!-- ================= QUICK STATS ================= -->
+      <section class="mini-stats">
+        <div class="mini-stat mini-stat--yellow">
+          <span class="mini-stat__icon">👥</span>
+          <div><small>Customers</small><strong id="statCustomers">0</strong></div>
+        </div>
+        <div class="mini-stat mini-stat--green">
+          <span class="mini-stat__icon">🆕</span>
+          <div><small>New this week</small><strong id="statNew">0</strong></div>
+        </div>
+        <div class="mini-stat mini-stat--blue">
+          <span class="mini-stat__icon">🔁</span>
+          <div><small>Repeat buyers</small><strong id="statRepeat">0</strong></div>
+        </div>
+        <div class="mini-stat mini-stat--red">
+          <span class="mini-stat__icon">💸</span>
+          <div><small>Avg. spend</small><strong id="statAvgSpend">₱0</strong></div>
+        </div>
+      </section>
+
+      <!-- ================= TOOLBAR ================= -->
+      <section class="admin-toolbar">
+        <div class="search search--sm">
+          <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2.5"/><path d="M20 20l-4-4" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg>
+          <input type="search" id="customerSearch" placeholder="Search name or email" aria-label="Search customers" />
+        </div>
+
+        <div class="chips" role="tablist" aria-label="Role">
+          <button class="chip is-active" data-role="customer" role="tab" aria-selected="true">👤 Customers</button>
+          <button class="chip" data-role="admin" role="tab" aria-selected="false">🛡 Staff</button>
+          <button class="chip" data-role="all" role="tab" aria-selected="false">All</button>
+        </div>
+
+        <select id="customerSort" class="select select--sm" aria-label="Sort customers">
+          <option value="spent">Top spenders</option>
+          <option value="orders">Most orders</option>
+          <option value="recent">Recent activity</option>
+          <option value="newest">Newest accounts</option>
+          <option value="name">Name (A–Z)</option>
+        </select>
+      </section>
+
+      <!-- ================= CUSTOMERS TABLE ================= -->
+      <section class="admin-card table-card">
+        <div class="table-wrap">
+          <table class="admin-table admin-table--customers">
+            <thead>
+              <tr>
+                <th>Customer</th>
+                <th>Sign-in</th>
+                <th>Orders</th>
+                <th>Total spent</th>
+                <th>Points</th>
+                <th>Last order</th>
+                <th>Joined</th>
+                <th><span class="sr-only">Actions</span></th>
+              </tr>
+            </thead>
+            <!-- Rows rendered by js/pages/admin-customers.js -->
+            <tbody id="customersTableBody"></tbody>
+          </table>
+        </div>
+        <p class="empty-inline" id="noCustomers" hidden>No customers match your search.</p>
+      </section>
+    </main>
+  </div>
+
+  <!-- ================= CUSTOMER DETAILS MODAL ================= -->
+  <div class="modal" id="customerModal" aria-hidden="true">
+    <div class="modal__overlay" data-close-modal></div>
+    <div class="modal__dialog modal__dialog--small modal__dialog--wide" role="dialog" aria-modal="true" aria-labelledby="cmName">
+      <button class="modal__close icon-btn" data-close-modal aria-label="Close">✕</button>
+
+      <div class="customer-detail">
+        <!-- Profile -->
+        <header class="customer-detail__head">
+          <span class="avatar avatar--xl" id="cmAvatar" style="--c:var(--mustard)">JD</span>
+          <div>
+            <h2 id="cmName">Juan Dela Cruz</h2>
+            <p id="cmEmail">juan@email.com</p>
+            <div class="customer-detail__badges">
+              <span class="badge" id="cmProvider">✉️ Email</span>
+              <span class="badge badge--yellow" id="cmJoined">Joined —</span>
+              <span class="badge badge--green" id="cmRole">Customer</span>
+            </div>
+          </div>
+        </header>
+
+        <!-- Stats -->
+        <div class="customer-detail__stats">
+          <div><small>Orders</small><strong id="cmOrders">0</strong></div>
+          <div><small>Total spent</small><strong id="cmSpent">₱0</strong></div>
+          <div><small>Avg. order</small><strong id="cmAvg">₱0</strong></div>
+          <div><small>Bun Points</small><strong id="cmPoints">0</strong></div>
+        </div>
+
+        <!-- Contact -->
+        <div class="od-box customer-detail__contact">
+          <h3>📞 Contact</h3>
+          <p id="cmPhone">—</p>
+          <p class="od-box__muted" id="cmAddress">No saved address</p>
+        </div>
+
+        <!-- Favorite -->
+        <p class="customer-detail__fav" id="cmFavBox" hidden>❤️ Favorite: <strong id="cmFav">—</strong></p>
+
+        <!-- Order history -->
+        <h3 class="customer-detail__title">Order history</h3>
+        <ul class="cm-orders" id="cmOrderList"></ul>
+        <p class="empty-inline" id="cmNoOrders" hidden>This customer hasn't ordered yet.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toasts -->
+  <div class="toasts" id="toasts" aria-live="polite"></div>
+
+  <!-- ================= SCRIPTS ================= -->
+  <script src="../js/data/products.js"></script>
+  <script src="../js/core/storage.js"></script>
+  <script src="../js/core/auth.js"></script>
+  <script>Auth.guardAdmin();</script>
+  <script src="../js/core/cart.js"></script>
+  <script src="../js/core/orders.js"></script>
+  <script src="../js/ui/toast.js"></script>
+  <script src="../js/ui/modal.js"></script>
+  <script src="../js/ui/adminShell.js"></script>
+  <script src="../js/pages/admin-customers.js"></script>
+</body>
+</html>

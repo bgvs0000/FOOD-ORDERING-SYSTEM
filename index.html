@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bun Voyage — Burgers Worth the Trip</title>
+  <meta name="description" content="Bun Voyage: smash burgers, crispy fries, and fizzy drinks delivered hot to your door." />
+  <link rel="icon" href="assets/images/products/burger-classic.svg" />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Inter:wght@400;500;600;800&display=swap" rel="stylesheet" />
+
+  <!-- Base -->
+  <link rel="stylesheet" href="css/base/reset.css" />
+  <link rel="stylesheet" href="css/base/variables.css" />
+  <link rel="stylesheet" href="css/base/typography.css" />
+  <!-- Components -->
+  <link rel="stylesheet" href="css/components/buttons.css" />
+  <link rel="stylesheet" href="css/components/navbar.css" />
+  <link rel="stylesheet" href="css/components/cards.css" />
+  <link rel="stylesheet" href="css/components/forms.css" />
+  <link rel="stylesheet" href="css/components/modal.css" />
+  <link rel="stylesheet" href="css/components/toast.css" />
+  <!-- Page -->
+  <link rel="stylesheet" href="css/animations.css" />
+  <link rel="stylesheet" href="css/pages/landing.css" />
+</head>
+
+<body class="landing">
+
+  <!-- ================= NAVBAR ================= -->
+  <header class="nav" id="nav">
+    <div class="container nav__inner">
+      <a href="#top" class="nav__logo">
+        <img src="assets/images/products/burger-classic.svg" alt="" width="40" height="40" />
+        <span>Bun<span class="hl-red">Voyage</span></span>
+      </a>
+
+      <nav class="nav__links" id="navLinks" aria-label="Main">
+        <a href="#menu">Menu</a>
+        <a href="#story">Our Story</a>
+        <a href="#how">How It Works</a>
+        <a href="#reviews">Reviews</a>
+      </nav>
+
+      <div class="nav__actions">
+        <button class="btn btn--primary btn--sm" data-order-now>Order Now</button>
+        <button class="nav__burger" id="navToggle" aria-label="Open menu" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main id="top">
+
+    <!-- ================= HERO ================= -->
+    <section class="hero">
+      <!-- background shapes (parallax) -->
+      <div class="hero__shape hero__shape--circle" data-parallax="0.15"></div>
+      <div class="hero__shape hero__shape--blob" data-parallax="-0.1"></div>
+
+      <div class="container hero__grid">
+        <div class="hero__copy">
+          <span class="eyebrow">🔥 Now delivering citywide</span>
+
+          <h1 class="hero-title">
+            <span class="word" style="--i:0">Bite</span>
+            <span class="word" style="--i:1">into</span>
+            <span class="word hl-red" style="--i:2">something</span>
+            <span class="word hl-box" style="--i:3">big.</span>
+          </h1>
+
+          <p class="lead">
+            Smash-pressed patties, melty cheese, and buns toasted to golden perfection.
+            Burgers worth the trip, delivered to your door in under 30 minutes.
+          </p>
+
+          <div class="hero__cta">
+            <button class="btn btn--primary btn--lg btn--pulse" data-order-now>
+              Order Now <span aria-hidden="true">→</span>
+            </button>
+            <a href="#menu" class="btn btn--lg">See the Menu</a>
+          </div>
+
+          <ul class="hero__meta">
+            <li><strong>4.9★</strong><span>2k+ reviews</span></li>
+            <li><strong>25 min</strong><span>avg. delivery</span></li>
+            <li><strong>100%</strong><span>fresh beef</span></li>
+          </ul>
+        </div>
+
+        <!-- 3D movable burger -->
+        <div class="hero__visual">
+          <div class="hero__plate anim-spin" aria-hidden="true"></div>
+
+          <div class="tilt hero__burger" data-tilt data-tilt-max="18">
+            <img src="assets/images/landing/burger-hero.svg" alt="Classic Bun Voyage burger" class="tilt__img" />
+            <span class="tilt__glare"></span>
+          </div>
+
+          <!-- floating stickers -->
+          <img src="assets/images/products/fries.svg" alt="" class="sticker sticker--fries anim-float" style="--rot:-12deg" data-parallax="0.25" />
+          <img src="assets/images/products/soda.svg"  alt="" class="sticker sticker--soda anim-float"  style="--rot:10deg; animation-delay:-2s" data-parallax="-0.2" />
+
+          <div class="badge-circle anim-wiggle">
+            <span>ONLY</span><strong>₱149</strong>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= MARQUEE ================= -->
+    <div class="marquee" aria-hidden="true">
+      <div class="marquee__track">
+        <span>Fresh</span><b>✺</b><span>Fast</span><b>✺</b><span>Hot</span><b>✺</b><span>Juicy</span><b>✺</b><span>Cheesy</span><b>✺</b>
+        <span>Fresh</span><b>✺</b><span>Fast</span><b>✺</b><span>Hot</span><b>✺</b><span>Juicy</span><b>✺</b><span>Cheesy</span><b>✺</b>
+      </div>
+    </div>
+
+    <!-- ================= FEATURED MENU ================= -->
+    <section class="section" id="menu">
+      <div class="container">
+        <div class="section-head" data-reveal="up">
+          <span class="eyebrow">Crowd favorites</span>
+          <h2>Pick your <span class="hl-red">flavor</span></h2>
+          <p class="lead">Hover the cards to see them move. Every burger is built to order.</p>
+        </div>
+
+        <!-- Cards are generated by js/pages/landing.js from js/data/products.js -->
+        <div class="menu-grid" id="featuredGrid"></div>
+
+        <div class="center mt-48" data-reveal="up">
+          <button class="btn btn--dark btn--lg" data-order-now>View Full Menu & Order</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= VIDEO / STORY ================= -->
+    <section class="section video-section" id="story">
+      <div class="container video-grid">
+        <div class="video-copy" data-reveal="left">
+          <span class="eyebrow">Our story</span>
+          <h2>Smashed <span class="stroke-text">on the</span> grill, <span class="hl-red">not</span> in a factory.</h2>
+          <p class="lead">
+            We started with a tiny grill and one rule: never cut corners. Every patty is
+            hand-smashed, every bun is toasted, and every order is packed hot.
+          </p>
+          <ul class="check-list">
+            <li>Locally sourced 100% beef</li>
+            <li>Buns baked fresh every morning</li>
+            <li>House-made secret sauce</li>
+          </ul>
+        </div>
+
+        <div class="video-frame" data-reveal="right">
+          <video id="promoVideo" src="assets/videos/promo.mp4" poster="assets/images/landing/video-poster.svg" playsinline muted loop preload="none"></video>
+          <button class="video-play" id="videoPlay" aria-label="Play video">
+            <svg viewBox="0 0 24 24" width="34" height="34"><path d="M8 5v14l11-7z" fill="currentColor"/></svg>
+          </button>
+          <span class="video-tag">▶ Watch the smash</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= HOW IT WORKS ================= -->
+    <section class="section how" id="how">
+      <div class="container">
+        <div class="section-head" data-reveal="up">
+          <span class="eyebrow">Easy as 1-2-3</span>
+          <h2>How it <span class="hl-box">works</span></h2>
+        </div>
+
+        <ol class="steps">
+          <li class="step" data-reveal="up" style="--delay:0s">
+            <span class="step__num">01</span>
+            <div class="step__icon">🍔</div>
+            <h3>Pick your burger</h3>
+            <p>Browse the menu and customize it your way.</p>
+          </li>
+          <li class="step" data-reveal="up" style="--delay:.12s">
+            <span class="step__num">02</span>
+            <div class="step__icon">🛒</div>
+            <h3>Checkout fast</h3>
+            <p>Pay with GCash, card, or cash on delivery.</p>
+          </li>
+          <li class="step" data-reveal="up" style="--delay:.24s">
+            <span class="step__num">03</span>
+            <div class="step__icon">🛵</div>
+            <h3>Track &amp; enjoy</h3>
+            <p>Follow your order live until it hits your door.</p>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- ================= STATS ================= -->
+    <section class="stats">
+      <div class="container stats__grid">
+        <div class="stat" data-reveal="zoom"><strong data-count="12500" data-suffix="+">0</strong><span>Burgers served</span></div>
+        <div class="stat" data-reveal="zoom" style="--delay:.1s"><strong data-count="25" data-suffix=" min">0</strong><span>Avg. delivery</span></div>
+        <div class="stat" data-reveal="zoom" style="--delay:.2s"><strong data-count="18">0</strong><span>Menu items</span></div>
+        <div class="stat" data-reveal="zoom" style="--delay:.3s"><strong data-count="4.9" data-decimals="1" data-suffix="★">0</strong><span>Avg. rating</span></div>
+      </div>
+    </section>
+
+    <!-- ================= TESTIMONIALS ================= -->
+    <section class="section" id="reviews">
+      <div class="container">
+        <div class="section-head" data-reveal="up">
+          <span class="eyebrow">Real talk</span>
+          <h2>People <span class="hl-red">love</span> us</h2>
+        </div>
+
+        <div class="reviews">
+          <article class="review" data-reveal="up" style="--rot:-2deg">
+            <p>"The Double Stack is unreal. Arrived hot, cheese still melting. 10/10."</p>
+            <footer><span class="avatar" style="--c:var(--mustard)">JM</span><div><strong>Jamie M.</strong><small>★★★★★</small></div></footer>
+          </article>
+          <article class="review" data-reveal="up" style="--rot:1.5deg; --delay:.1s">
+            <p>"Ordering took less than a minute. The tracking screen is so satisfying."</p>
+            <footer><span class="avatar" style="--c:var(--green)">RC</span><div><strong>Rico C.</strong><small>★★★★★</small></div></footer>
+          </article>
+          <article class="review" data-reveal="up" style="--rot:-1deg; --delay:.2s">
+            <p>"Spicy Inferno lives up to the name. Fries are crispy even after delivery!"</p>
+            <footer><span class="avatar" style="--c:var(--blue)">AL</span><div><strong>Ana L.</strong><small>★★★★☆</small></div></footer>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= FINAL CTA ================= -->
+    <section class="cta">
+      <div class="container cta__box" data-reveal="zoom">
+        <img src="assets/images/products/burger-double.svg" alt="" class="cta__img anim-float" style="--rot:-8deg" />
+        <div>
+          <h2>Hungry yet?</h2>
+          <p>Get <strong>20% off</strong> your first order with code <span class="code">FIRSTBITE</span></p>
+        </div>
+        <button class="btn btn--yellow btn--lg" data-order-now>Order Now →</button>
+      </div>
+    </section>
+  </main>
+
+  <!-- ================= FOOTER ================= -->
+  <footer class="footer">
+    <div class="container footer__grid">
+      <div>
+        <a href="#top" class="nav__logo nav__logo--light">
+          <img src="assets/images/products/burger-classic.svg" alt="" width="40" height="40" />
+          <span>Bun<span class="hl-red">Voyage</span></span>
+        </a>
+        <p class="footer__tag">Burgers worth the trip.</p>
+      </div>
+      <div>
+        <h4>Explore</h4>
+        <a href="#menu">Menu</a><a href="#story">Our Story</a><a href="#how">How It Works</a>
+      </div>
+      <div>
+        <h4>Visit</h4>
+        <p>123 Grill Street, Manila<br />Open daily 10AM – 11PM</p>
+      </div>
+      <div>
+        <h4>Follow</h4>
+        <div class="socials"><a href="#" aria-label="Facebook">FB</a><a href="#" aria-label="Instagram">IG</a><a href="#" aria-label="TikTok">TT</a></div>
+      </div>
+    </div>
+    <p class="footer__copy">© 2026 Bun Voyage. Portfolio mockup — not a real store.</p>
+  </footer>
+
+  <!-- ================= AUTH MODAL ================= -->
+  <div class="modal" id="authModal" aria-hidden="true">
+    <div class="modal__overlay" data-close-modal></div>
+
+    <div class="modal__dialog" role="dialog" aria-modal="true" aria-labelledby="authTitle">
+      <button class="modal__close icon-btn" data-close-modal aria-label="Close">✕</button>
+
+      <div class="modal__side" aria-hidden="true">
+        <img src="assets/images/products/burger-classic.svg" alt="" class="anim-float" />
+        <p class="display">Your burger is<br />one step away.</p>
+      </div>
+
+      <div class="modal__body">
+        <h2 id="authTitle" class="modal__title">Welcome back!</h2>
+        <p class="modal__sub" id="authSub">Log in to start ordering.</p>
+
+        <!-- Tabs -->
+        <div class="tabs" role="tablist">
+          <button class="tabs__btn is-active" role="tab" data-tab="login" aria-selected="true">Log In</button>
+          <button class="tabs__btn" role="tab" data-tab="register" aria-selected="false">Register</button>
+          <span class="tabs__indicator"></span>
+        </div>
+
+        <!-- Google -->
+        <button class="btn btn--block google-btn" id="googleBtn" type="button">
+          <svg width="20" height="20" viewBox="0 0 48 48" aria-hidden="true">
+            <path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3C33.7 32.7 29.2 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34 6.1 29.3 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20 20-8.9 20-20c0-1.3-.1-2.4-.4-3.5z"/>
+            <path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.7 15.1 19 12 24 12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34 6.1 29.3 4 24 4 16.3 4 9.7 8.3 6.3 14.7z"/>
+            <path fill="#4CAF50" d="M24 44c5.2 0 9.9-2 13.4-5.2l-6.2-5.2C29.2 35.1 26.7 36 24 36c-5.2 0-9.6-3.3-11.3-8l-6.5 5C9.5 39.6 16.2 44 24 44z"/>
+            <path fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3c-.8 2.2-2.2 4.2-4.1 5.6l6.2 5.2C37 39.2 44 34 44 24c0-1.3-.1-2.4-.4-3.5z"/>
+          </svg>
+          Continue with Google
+        </button>
+
+        <div class="divider"><span>or with email</span></div>
+
+        <!-- LOGIN FORM -->
+        <form class="auth-form is-active" id="loginForm" data-form="login" novalidate>
+          <div class="field">
+            <label for="loginEmail">Email</label>
+            <input type="email" id="loginEmail" name="email" placeholder="you@email.com" autocomplete="email" required />
+            <small class="field__error"></small>
+          </div>
+          <div class="field">
+            <label for="loginPassword">Password</label>
+            <div class="field__pw">
+              <input type="password" id="loginPassword" name="password" placeholder="••••••••" autocomplete="current-password" required />
+              <button type="button" class="pw-toggle" aria-label="Show password">👁</button>
+            </div>
+            <small class="field__error"></small>
+          </div>
+          <div class="field-row">
+            <label class="checkbox"><input type="checkbox" name="remember" checked /> <span>Remember me</span></label>
+            <a href="#" class="link" id="forgotLink">Forgot password?</a>
+          </div>
+          <p class="form-error" role="alert"></p>
+          <button type="submit" class="btn btn--primary btn--block btn--lg">Log In</button>
+          <p class="demo-hint">Demo: <code>demo@bunvoyage.com</code> / <code>burger123</code></p>
+        </form>
+
+        <!-- REGISTER FORM -->
+        <form class="auth-form" id="registerForm" data-form="register" novalidate>
+          <div class="field">
+            <label for="regName">Full name</label>
+            <input type="text" id="regName" name="name" placeholder="Juan Dela Cruz" autocomplete="name" required />
+            <small class="field__error"></small>
+          </div>
+          <div class="field">
+            <label for="regEmail">Email</label>
+            <input type="email" id="regEmail" name="email" placeholder="you@email.com" autocomplete="email" required />
+            <small class="field__error"></small>
+          </div>
+          <div class="field">
+            <label for="regPassword">Password</label>
+            <div class="field__pw">
+              <input type="password" id="regPassword" name="password" placeholder="At least 6 characters" autocomplete="new-password" required />
+              <button type="button" class="pw-toggle" aria-label="Show password">👁</button>
+            </div>
+            <div class="pw-meter"><span></span></div>
+            <small class="field__error"></small>
+          </div>
+          <div class="field">
+            <label for="regConfirm">Confirm password</label>
+            <input type="password" id="regConfirm" name="confirm" placeholder="Repeat password" autocomplete="new-password" required />
+            <small class="field__error"></small>
+          </div>
+          <label class="checkbox"><input type="checkbox" name="terms" required /> <span>I agree to the <a href="#" class="link">Terms</a></span></label>
+          <p class="form-error" role="alert"></p>
+          <button type="submit" class="btn btn--primary btn--block btn--lg">Create Account</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast container -->
+  <div class="toasts" id="toasts" aria-live="polite"></div>
+
+  <!-- ================= SCRIPTS (order matters) ================= -->
+  <!-- Plain <script> (not modules) para gumana kahit i-double-click lang ang index.html -->
+  <script src="js/data/products.js"></script>
+  <script src="js/core/storage.js"></script>
+  <script src="js/core/auth.js"></script>
+  <script src="js/ui/toast.js"></script>
+  <script src="js/ui/modal.js"></script>
+  <script src="js/ui/tilt3d.js"></script>
+  <script src="js/effects/scrollReveal.js"></script>
+  <script src="js/effects/parallax.js"></script>
+  <script src="js/effects/counter.js"></script>
+  <script src="js/pages/landing.js"></script>
+</body>
+</html>

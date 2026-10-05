@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My Orders — Bun Voyage</title>
+  <link rel="icon" href="../assets/images/products/burger-classic.svg" />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Inter:wght@400;500;600;800&display=swap" rel="stylesheet" />
+
+  <!-- Base -->
+  <link rel="stylesheet" href="../css/base/reset.css" />
+  <link rel="stylesheet" href="../css/base/variables.css" />
+  <link rel="stylesheet" href="../css/base/typography.css" />
+  <!-- Components -->
+  <link rel="stylesheet" href="../css/components/buttons.css" />
+  <link rel="stylesheet" href="../css/components/navbar.css" />
+  <link rel="stylesheet" href="../css/components/cards.css" />
+  <link rel="stylesheet" href="../css/components/forms.css" />
+  <link rel="stylesheet" href="../css/components/modal.css" />
+  <link rel="stylesheet" href="../css/components/toast.css" />
+  <!-- Page -->
+  <link rel="stylesheet" href="../css/animations.css" />
+  <link rel="stylesheet" href="../css/pages/app.css" />
+  <link rel="stylesheet" href="../css/pages/orders.css" />
+</head>
+
+<body class="app" data-page="orders">
+
+  <header class="app-nav" id="appNav"></header>
+
+  <main class="app-main container">
+
+    <div class="page-head">
+      <div>
+        <h1>Track <span class="hl-box">Orders</span></h1>
+        <p class="page-head__sub" id="activeCountText">0 active orders</p>
+      </div>
+      <a href="history.html" class="btn btn--sm">📜 Order history</a>
+    </div>
+
+    <!-- ================= ACTIVE ORDER TABS ================= -->
+    <!-- Pills ng bawat active order (rendered by js/pages/orders.js) -->
+    <nav class="order-tabs" id="orderTabs" aria-label="Active orders"></nav>
+
+    <!-- ================= TRACKER ================= -->
+    <section class="tracker" id="tracker" hidden>
+
+      <!-- LEFT: status -->
+      <div class="tracker__main">
+
+        <!-- Status hero -->
+        <div class="status-hero" id="statusHero" data-status="PENDING">
+          <div class="status-hero__icon" id="statusIcon">🧾</div>
+          <div>
+            <p class="status-hero__label">Order <strong id="trkOrderId">#BV-0000</strong></p>
+            <h2 class="status-hero__title" id="statusTitle">Order received</h2>
+            <p class="status-hero__desc" id="statusDesc">Waiting for the restaurant to confirm.</p>
+          </div>
+          <div class="eta">
+            <small>Arriving in</small>
+            <strong id="etaCountdown">--:--</strong>
+            <small id="etaClock">by --:--</small>
+          </div>
+        </div>
+
+        <!-- Status timeline: PENDING → CONFIRMED → PREPARING → OUT_FOR_DELIVERY → COMPLETED -->
+        <ol class="timeline" id="timeline">
+          <li class="timeline__step" data-step="PENDING">
+            <span class="timeline__dot">🧾</span>
+            <div><strong>Order placed</strong><small data-time></small></div>
+          </li>
+          <li class="timeline__step" data-step="CONFIRMED">
+            <span class="timeline__dot">👍</span>
+            <div><strong>Confirmed</strong><small data-time></small></div>
+          </li>
+          <li class="timeline__step" data-step="PREPARING">
+            <span class="timeline__dot">🔥</span>
+            <div><strong>On the grill</strong><small data-time></small></div>
+          </li>
+          <li class="timeline__step" data-step="OUT_FOR_DELIVERY">
+            <span class="timeline__dot">🛵</span>
+            <div><strong id="stepOutLabel">Out for delivery</strong><small data-time></small></div>
+          </li>
+          <li class="timeline__step" data-step="COMPLETED">
+            <span class="timeline__dot">🎉</span>
+            <div><strong id="stepDoneLabel">Delivered</strong><small data-time></small></div>
+          </li>
+        </ol>
+
+        <!-- Mock map (delivery only) -->
+        <div class="map" id="mapCard">
+          <div class="map__grid" aria-hidden="true"></div>
+          <svg class="map__route" viewBox="0 0 600 220" preserveAspectRatio="none" aria-hidden="true">
+            <path id="routePath" d="M40 180 C160 180 160 60 300 80 S460 190 560 50" />
+          </svg>
+          <span class="map__pin map__pin--store" title="Bun Voyage">🍔</span>
+          <span class="map__pin map__pin--home" title="You">🏠</span>
+          <span class="map__rider" id="mapRider">🛵</span>
+          <span class="map__label">Live tracking (simulated)</span>
+        </div>
+
+        <!-- Rider card (shown when OUT_FOR_DELIVERY) -->
+        <div class="rider" id="riderCard" hidden>
+          <span class="avatar avatar--lg" style="--c:var(--mustard)">MR</span>
+          <div class="rider__info">
+            <strong>Mark Reyes</strong>
+            <small>Honda Click · ABC 1234 · ★ 4.9</small>
+          </div>
+          <div class="rider__actions">
+            <button class="icon-btn" type="button" aria-label="Call rider" data-mock="call">📞</button>
+            <button class="icon-btn" type="button" aria-label="Message rider" data-mock="chat">💬</button>
+          </div>
+        </div>
+
+        <!-- Actions -->
+        <div class="tracker__actions">
+          <button class="btn btn--sm" id="cancelBtn" type="button">✕ Cancel order</button>
+          <button class="btn btn--sm btn--yellow" id="simulateBtn" type="button">⏭ Simulate next status</button>
+          <label class="checkbox">
+            <input type="checkbox" id="autoAdvance" checked /> <span>Auto-advance (demo)</span>
+          </label>
+        </div>
+        <p class="mock-note">ℹ️ Portfolio demo: nag-a-advance ang status nang kusa para makita ang buong flow.</p>
+      </div>
+
+      <!-- RIGHT: order details -->
+      <aside class="summary" aria-label="Order details">
+        <h2 class="summary__title">Order Details</h2>
+
+        <div class="detail-meta">
+          <div><small>Placed</small><strong id="trkPlaced">—</strong></div>
+          <div><small>Type</small><strong id="trkType">—</strong></div>
+          <div><small>Payment</small><strong id="trkPayment">—</strong></div>
+        </div>
+
+        <div class="detail-address" id="trkAddressBox">
+          <small>Deliver to</small>
+          <p id="trkAddress">—</p>
+        </div>
+
+        <ul class="mini-list" id="trkItems"></ul>
+
+        <dl class="summary__rows">
+          <div class="summary__row"><dt>Subtotal</dt><dd id="trkSubtotal">₱0</dd></div>
+          <div class="summary__row"><dt>Delivery fee</dt><dd id="trkDelivery">₱0</dd></div>
+          <div class="summary__row summary__row--discount" id="trkDiscountRow" hidden><dt>Discount</dt><dd id="trkDiscount">−₱0</dd></div>
+          <div class="summary__row summary__row--total"><dt>Total</dt><dd id="trkTotal">₱0</dd></div>
+        </dl>
+
+        <button class="btn btn--block btn--sm" id="helpBtn" type="button">💬 Need help with this order?</button>
+      </aside>
+    </section>
+
+    <!-- ================= EMPTY STATE ================= -->
+    <section class="empty-state" id="noOrders" hidden>
+      <img src="../assets/images/products/fries.svg" alt="" class="anim-float" />
+      <h3>No active orders</h3>
+      <p>When you place an order, you can track it live here.</p>
+      <div class="empty-state__actions">
+        <a href="home.html" class="btn btn--primary">Order something</a>
+        <a href="history.html" class="btn">View history</a>
+      </div>
+    </section>
+  </main>
+
+  <!-- ================= CANCEL CONFIRM MODAL ================= -->
+  <div class="modal" id="cancelModal" aria-hidden="true">
+    <div class="modal__overlay" data-close-modal></div>
+    <div class="modal__dialog modal__dialog--small" role="dialog" aria-modal="true" aria-labelledby="cancelTitle">
+      <div class="confirm">
+        <div class="confirm__icon">⚠️</div>
+        <h2 id="cancelTitle">Cancel this order?</h2>
+        <p>You can only cancel while the order is still <strong>pending</strong>.</p>
+        <div class="field">
+          <label for="cancelReason">Reason</label>
+          <select id="cancelReason" class="select">
+            <option>Changed my mind</option>
+            <option>Ordered by mistake</option>
+            <option>Wrong address</option>
+            <option>Taking too long</option>
+          </select>
+        </div>
+        <div class="confirm__actions">
+          <button class="btn" data-close-modal type="button">Keep order</button>
+          <button class="btn btn--primary" id="confirmCancelBtn" type="button">Yes, cancel</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <nav class="bottom-nav" id="bottomNav" aria-label="Mobile"></nav>
+  <div class="toasts" id="toasts" aria-live="polite"></div>
+
+  <!-- ================= SCRIPTS ================= -->
+  <script src="../js/data/products.js"></script>
+  <script src="../js/core/storage.js"></script>
+  <script src="../js/core/auth.js"></script>
+  <script>Auth.guard();</script>
+  <script src="../js/core/cart.js"></script>
+  <script src="../js/core/orders.js"></script>
+  <script src="../js/ui/toast.js"></script>
+  <script src="../js/ui/modal.js"></script>
+  <script src="../js/ui/navbar.js"></script>
+  <script src="../js/pages/orders.js"></script>
+</body>
+</html>

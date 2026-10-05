@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Checkout — Bun Voyage</title>
+  <link rel="icon" href="../assets/images/products/burger-classic.svg" />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Inter:wght@400;500;600;800&display=swap" rel="stylesheet" />
+
+  <!-- Base -->
+  <link rel="stylesheet" href="../css/base/reset.css" />
+  <link rel="stylesheet" href="../css/base/variables.css" />
+  <link rel="stylesheet" href="../css/base/typography.css" />
+  <!-- Components -->
+  <link rel="stylesheet" href="../css/components/buttons.css" />
+  <link rel="stylesheet" href="../css/components/navbar.css" />
+  <link rel="stylesheet" href="../css/components/cards.css" />
+  <link rel="stylesheet" href="../css/components/forms.css" />
+  <link rel="stylesheet" href="../css/components/modal.css" />
+  <link rel="stylesheet" href="../css/components/toast.css" />
+  <!-- Page -->
+  <link rel="stylesheet" href="../css/animations.css" />
+  <link rel="stylesheet" href="../css/pages/app.css" />
+  <link rel="stylesheet" href="../css/pages/checkout.css" />
+</head>
+
+<body class="app" data-page="cart">
+
+  <header class="app-nav" id="appNav"></header>
+
+  <main class="app-main container">
+
+    <div class="page-head">
+      <div>
+        <a href="cart.html" class="link back-link">← Back to cart</a>
+        <h1><span class="hl-box">Checkout</span></h1>
+      </div>
+    </div>
+
+    <ol class="stepper" aria-label="Checkout progress">
+      <li class="stepper__item is-done"><span>✓</span> Cart</li>
+      <li class="stepper__item is-active"><span>2</span> Checkout</li>
+      <li class="stepper__item"><span>3</span> Track</li>
+    </ol>
+
+    <form class="checkout-layout" id="checkoutForm" novalidate>
+
+      <!-- ================= LEFT: FORM ================= -->
+      <div class="checkout-main">
+
+        <!-- 1. ORDER TYPE -->
+        <section class="panel">
+          <h2 class="panel__title"><span class="panel__num">1</span> Order type</h2>
+          <div class="segmented" role="radiogroup" aria-label="Order type">
+            <label class="segmented__opt">
+              <input type="radio" name="orderType" value="delivery" checked />
+              <span>🛵 Delivery <small>+₱49</small></span>
+            </label>
+            <label class="segmented__opt">
+              <input type="radio" name="orderType" value="pickup" />
+              <span>🏪 Pickup <small>Free</small></span>
+            </label>
+          </div>
+        </section>
+
+        <!-- 2. CONTACT & ADDRESS -->
+        <section class="panel">
+          <h2 class="panel__title"><span class="panel__num">2</span> Contact details</h2>
+
+          <div class="form-grid">
+            <div class="field">
+              <label for="coName">Full name</label>
+              <input type="text" id="coName" name="name" autocomplete="name" required />
+              <small class="field__error"></small>
+            </div>
+            <div class="field">
+              <label for="coPhone">Mobile number</label>
+              <input type="tel" id="coPhone" name="phone" placeholder="09XX XXX XXXX" autocomplete="tel" required />
+              <small class="field__error"></small>
+            </div>
+          </div>
+
+          <!-- Hidden by JS when "Pickup" is selected -->
+          <div id="addressFields">
+            <div class="field">
+              <label for="coAddress">Delivery address</label>
+              <input type="text" id="coAddress" name="address" placeholder="House no., street, barangay, city" autocomplete="street-address" required />
+              <small class="field__error"></small>
+            </div>
+            <div class="field">
+              <label for="coLandmark">Landmark <span class="opt">Optional</span></label>
+              <input type="text" id="coLandmark" name="landmark" placeholder="e.g. beside the blue gate" />
+            </div>
+          </div>
+
+          <!-- Shown by JS when "Pickup" is selected -->
+          <div class="pickup-info" id="pickupInfo" hidden>
+            <span>📍</span>
+            <div>
+              <strong>Bun Voyage — Grill Street Branch</strong>
+              <p>123 Grill Street, Manila · Open 10AM – 11PM</p>
+            </div>
+          </div>
+
+          <label class="checkbox">
+            <input type="checkbox" name="saveAddress" checked /> <span>Save these details to my account</span>
+          </label>
+        </section>
+
+        <!-- 3. TIME -->
+        <section class="panel">
+          <h2 class="panel__title"><span class="panel__num">3</span> When?</h2>
+          <div class="segmented" role="radiogroup" aria-label="Order time">
+            <label class="segmented__opt">
+              <input type="radio" name="timing" value="asap" checked />
+              <span>⚡ ASAP <small>~25 min</small></span>
+            </label>
+            <label class="segmented__opt">
+              <input type="radio" name="timing" value="schedule" />
+              <span>🗓 Schedule <small>Pick a time</small></span>
+            </label>
+          </div>
+          <div class="field" id="scheduleField" hidden>
+            <label for="coTime">Preferred time</label>
+            <select id="coTime" name="scheduleTime" class="select"></select> <!-- filled by JS -->
+          </div>
+        </section>
+
+        <!-- 4. PAYMENT -->
+        <section class="panel">
+          <h2 class="panel__title"><span class="panel__num">4</span> Payment method</h2>
+
+          <div class="pay-grid" role="radiogroup" aria-label="Payment method">
+            <label class="pay-card">
+              <input type="radio" name="payment" value="gcash" checked />
+              <span class="pay-card__body">
+                <span class="pay-card__icon" style="--c:var(--blue)">G</span>
+                <strong>GCash</strong><small>Pay via e-wallet</small>
+              </span>
+            </label>
+            <label class="pay-card">
+              <input type="radio" name="payment" value="card" />
+              <span class="pay-card__body">
+                <span class="pay-card__icon" style="--c:var(--mustard)">💳</span>
+                <strong>Card</strong><small>Visa / Mastercard</small>
+              </span>
+            </label>
+            <label class="pay-card">
+              <input type="radio" name="payment" value="cod" />
+              <span class="pay-card__body">
+                <span class="pay-card__icon" style="--c:var(--green)">₱</span>
+                <strong>Cash</strong><small>Pay on delivery</small>
+              </span>
+            </label>
+          </div>
+
+          <!-- GCash fields -->
+          <div class="pay-fields" data-pay="gcash">
+            <div class="field">
+              <label for="gcashNum">GCash number</label>
+              <input type="tel" id="gcashNum" name="gcashNumber" placeholder="09XX XXX XXXX" />
+              <small class="field__error"></small>
+            </div>
+          </div>
+
+          <!-- Card fields -->
+          <div class="pay-fields" data-pay="card" hidden>
+            <div class="mock-card" aria-hidden="true">
+              <span class="mock-card__chip"></span>
+              <p class="mock-card__num" id="cardPreviewNum">•••• •••• •••• ••••</p>
+              <div class="mock-card__row">
+                <span id="cardPreviewName">YOUR NAME</span>
+                <span id="cardPreviewExp">MM/YY</span>
+              </div>
+            </div>
+            <div class="field">
+              <label for="cardNum">Card number</label>
+              <input type="text" id="cardNum" name="cardNumber" inputmode="numeric" maxlength="19" placeholder="1234 5678 9012 3456" autocomplete="cc-number" />
+              <small class="field__error"></small>
+            </div>
+            <div class="form-grid form-grid--3">
+              <div class="field">
+                <label for="cardName">Name on card</label>
+                <input type="text" id="cardName" name="cardName" autocomplete="cc-name" />
+                <small class="field__error"></small>
+              </div>
+              <div class="field">
+                <label for="cardExp">Expiry</label>
+                <input type="text" id="cardExp" name="cardExp" maxlength="5" placeholder="MM/YY" autocomplete="cc-exp" />
+                <small class="field__error"></small>
+              </div>
+              <div class="field">
+                <label for="cardCvv">CVV</label>
+                <input type="password" id="cardCvv" name="cardCvv" maxlength="3" inputmode="numeric" placeholder="•••" autocomplete="cc-csc" />
+                <small class="field__error"></small>
+              </div>
+            </div>
+            <p class="mock-note">🔒 Mockup only — card details are never saved.</p>
+          </div>
+
+          <!-- COD -->
+          <div class="pay-fields" data-pay="cod" hidden>
+            <div class="field">
+              <label for="changeFor">Change for <span class="opt">Optional</span></label>
+              <input type="number" id="changeFor" name="changeFor" placeholder="e.g. 1000" min="0" />
+            </div>
+          </div>
+        </section>
+
+        <!-- 5. NOTES -->
+        <section class="panel">
+          <h2 class="panel__title"><span class="panel__num">5</span> Note to rider</h2>
+          <textarea name="riderNote" rows="2" maxlength="150" placeholder="e.g. Please ring the doorbell twice"></textarea>
+        </section>
+      </div>
+
+      <!-- ================= RIGHT: SUMMARY ================= -->
+      <aside class="summary" aria-label="Order summary">
+        <h2 class="summary__title">Your Order</h2>
+
+        <!-- Mini item list (rendered by js/pages/checkout.js) -->
+        <ul class="mini-list" id="miniList"></ul>
+
+        <dl class="summary__rows">
+          <div class="summary__row"><dt>Subtotal</dt><dd id="sumSubtotal">₱0</dd></div>
+          <div class="summary__row"><dt>Delivery fee</dt><dd id="sumDelivery">₱0</dd></div>
+          <div class="summary__row summary__row--discount" id="discountRow" hidden>
+            <dt>Discount <span class="code" id="discountCode"></span></dt>
+            <dd id="sumDiscount">−₱0</dd>
+          </div>
+          <div class="summary__row summary__row--total"><dt>Total</dt><dd id="sumTotal">₱0</dd></div>
+        </dl>
+
+        <p class="form-error" id="checkoutError" role="alert"></p>
+
+        <button type="submit" class="btn btn--primary btn--block btn--lg" id="placeOrderBtn">
+          Place Order • <span id="btnTotal">₱0</span>
+        </button>
+
+        <p class="summary__legal">By placing your order you agree to our Terms. This is a portfolio mockup; no real payment is made.</p>
+      </aside>
+    </form>
+  </main>
+
+  <!-- ================= SUCCESS MODAL ================= -->
+  <div class="modal" id="successModal" aria-hidden="true">
+    <div class="modal__overlay"></div>
+    <div class="modal__dialog modal__dialog--small" role="dialog" aria-modal="true" aria-labelledby="successTitle">
+      <div class="success">
+        <div class="success__check">✓</div>
+        <h2 id="successTitle">Order placed!</h2>
+        <p>Your order <strong id="successOrderId">#BV-0000</strong> is being sent to the kitchen.</p>
+        <p class="success__eta">Estimated arrival: <strong id="successEta">--:--</strong></p>
+        <div class="success__actions">
+          <a href="orders.html" class="btn btn--primary btn--block" id="trackBtn">Track my order →</a>
+          <a href="home.html" class="btn btn--block">Back to menu</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Confetti canvas -->
+  <canvas id="confetti" class="confetti" aria-hidden="true"></canvas>
+
+  <nav class="bottom-nav" id="bottomNav" aria-label="Mobile"></nav>
+  <div class="toasts" id="toasts" aria-live="polite"></div>
+
+  <!-- ================= SCRIPTS ================= -->
+  <script src="../js/data/products.js"></script>
+  <script src="../js/core/storage.js"></script>
+  <script src="../js/core/auth.js"></script>
+  <script>Auth.guard();</script>
+  <script src="../js/core/cart.js"></script>
+  <script src="../js/core/orders.js"></script>
+  <script src="../js/ui/toast.js"></script>
+  <script src="../js/ui/modal.js"></script>
+  <script src="../js/ui/navbar.js"></script>
+  <script src="../js/effects/confetti.js"></script>
+  <script src="../js/pages/checkout.js"></script>
+</body>
+</html>

@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 370">
+  <g stroke="#1E1E1E" stroke-width="6" stroke-linejoin="round" stroke-linecap="round">
+
+    <!-- Bottom bun -->
+    <rect x="50" y="292" width="300" height="60" rx="28" fill="#F4A23A"/>
+
+    <!-- Patty -->
+    <rect x="40" y="238" width="320" height="62" rx="30" fill="#6B3A1F"/>
+
+    <!-- Cheese (with drips) -->
+    <path d="M45 228 H355 L342 250 L322 234 L304 266 L284 236 H136 L116 262 L96 236 L72 252 Z" fill="#FFC233"/>
+
+    <!-- Tomato -->
+    <rect x="58" y="204" width="284" height="30" rx="15" fill="#FF4B3E"/>
+
+    <!-- Lettuce (wavy) -->
+    <path d="M30 200 Q50 178 70 198 T110 198 T150 198 T190 198 T230 198 T270 198 T310 198 T350 198 Q362 190 370 200 L360 214 H40 Z" fill="#3BB273"/>
+
+    <!-- Top bun -->
+    <path d="M40 185 C40 80 120 40 200 40 C280 40 360 80 360 185 Z" fill="#F4A23A"/>
+
+    <!-- Bun shine -->
+    <path d="M85 120 C100 85 140 65 175 62" fill="none" stroke="#FFD08A" stroke-width="10"/>
+
+    <!-- Sesame seeds -->
+    <g fill="#FFF4E0" stroke-width="3">
+      <ellipse cx="140" cy="90"  rx="9" ry="5" transform="rotate(-20 140 90)"/>
+      <ellipse cx="200" cy="70"  rx="9" ry="5"/>
+      <ellipse cx="260" cy="92"  rx="9" ry="5" transform="rotate(20 260 92)"/>
+      <ellipse cx="170" cy="125" rx="9" ry="5" transform="rotate(-10 170 125)"/>
+      <ellipse cx="235" cy="125" rx="9" ry="5" transform="rotate(10 235 125)"/>
+      <ellipse cx="110" cy="140" rx="9" ry="5" transform="rotate(-30 110 140)"/>
+      <ellipse cx="292" cy="140" rx="9" ry="5" transform="rotate(30 292 140)"/>
+    </g>
+  </g>
+</svg>

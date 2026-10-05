@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Orders — Bun Voyage Admin</title>
+  <meta name="robots" content="noindex" />
+  <link rel="icon" href="../assets/images/products/burger-classic.svg" />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Inter:wght@400;500;600;800&display=swap" rel="stylesheet" />
+
+  <!-- Base -->
+  <link rel="stylesheet" href="../css/base/reset.css" />
+  <link rel="stylesheet" href="../css/base/variables.css" />
+  <link rel="stylesheet" href="../css/base/typography.css" />
+  <!-- Components -->
+  <link rel="stylesheet" href="../css/components/buttons.css" />
+  <link rel="stylesheet" href="../css/components/cards.css" />
+  <link rel="stylesheet" href="../css/components/forms.css" />
+  <link rel="stylesheet" href="../css/components/modal.css" />
+  <link rel="stylesheet" href="../css/components/toast.css" />
+  <!-- Page -->
+  <link rel="stylesheet" href="../css/animations.css" />
+  <link rel="stylesheet" href="../css/pages/app.css" />
+  <link rel="stylesheet" href="../css/pages/admin.css" />
+</head>
+
+<body class="admin" data-admin-page="orders">
+
+  <aside class="admin-sidebar" id="adminSidebar"></aside>
+
+  <div class="admin-main">
+    <header class="admin-topbar" id="adminTopbar"></header>
+
+    <main class="admin-content">
+
+      <!-- ================= PAGE HEAD ================= -->
+      <div class="admin-head">
+        <div>
+          <p class="admin-head__date"><span class="live-dot"></span> Live kitchen board</p>
+          <h1>Or<span class="hl-red">ders</span></h1>
+        </div>
+
+        <div class="admin-head__actions">
+          <!-- Board / List toggle -->
+          <div class="view-toggle" role="tablist" aria-label="View">
+            <button class="view-toggle__btn is-active" data-view="board" role="tab" aria-selected="true">▦ Board</button>
+            <button class="view-toggle__btn" data-view="list" role="tab" aria-selected="false">☰ List</button>
+          </div>
+
+          <label class="switch-inline" title="Play a sound when a new order arrives">
+            <span>🔔 Sound</span>
+            <span class="switch"><input type="checkbox" id="soundToggle" checked /><span></span></span>
+          </label>
+        </div>
+      </div>
+
+      <!-- ================= NEW ORDER ALERT ================= -->
+      <div class="new-order-alert" id="newOrderAlert" hidden>
+        <span class="new-order-alert__icon">🛎</span>
+        <p><strong id="newOrderText">New order!</strong> A customer just placed an order.</p>
+        <button class="btn btn--sm btn--dark" id="newOrderView" type="button">View</button>
+        <button class="icon-btn icon-btn--sm" id="newOrderClose" type="button" aria-label="Dismiss">✕</button>
+      </div>
+
+      <!-- ================= TOOLBAR ================= -->
+      <section class="admin-toolbar">
+        <div class="search search--sm">
+          <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2.5"/><path d="M20 20l-4-4" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg>
+          <input type="search" id="orderSearch" placeholder="Search order #, customer, or item" aria-label="Search orders" />
+        </div>
+
+        <div class="chips" role="tablist" aria-label="Order type">
+          <button class="chip is-active" data-type="all" role="tab" aria-selected="true">All</button>
+          <button class="chip" data-type="delivery" role="tab" aria-selected="false">🛵 Delivery</button>
+          <button class="chip" data-type="pickup" role="tab" aria-selected="false">🏪 Pickup</button>
+        </div>
+
+        <label class="checkbox checkbox--inline">
+          <input type="checkbox" id="showCancelled" /> <span>Show cancelled</span>
+        </label>
+      </section>
+
+      <!-- ================= BOARD VIEW (Kanban) ================= -->
+      <!-- Cards are rendered by js/pages/admin-orders.js -->
+      <section class="board" id="boardView" aria-label="Orders board">
+
+        <div class="board-col" data-status="PENDING">
+          <header class="board-col__head">
+            <span class="board-col__dot"></span>
+            <h2>New</h2>
+            <span class="board-col__count" data-count="PENDING">0</span>
+          </header>
+          <div class="board-col__list" data-list="PENDING"></div>
+        </div>
+
+        <div class="board-col" data-status="CONFIRMED">
+          <header class="board-col__head">
+            <span class="board-col__dot"></span>
+            <h2>Confirmed</h2>
+            <span class="board-col__count" data-count="CONFIRMED">0</span>
+          </header>
+          <div class="board-col__list" data-list="CONFIRMED"></div>
+        </div>
+
+        <div class="board-col" data-status="PREPARING">
+          <header class="board-col__head">
+            <span class="board-col__dot"></span>
+            <h2>On the grill</h2>
+            <span class="board-col__count" data-count="PREPARING">0</span>
+          </header>
+          <div class="board-col__list" data-list="PREPARING"></div>
+        </div>
+
+        <div class="board-col" data-status="OUT_FOR_DELIVERY">
+          <header class="board-col__head">
+            <span class="board-col__dot"></span>
+            <h2>Out / Ready</h2>
+            <span class="board-col__count" data-count="OUT_FOR_DELIVERY">0</span>
+          </header>
+          <div class="board-col__list" data-list="OUT_FOR_DELIVERY"></div>
+        </div>
+
+        <div class="board-col" data-status="COMPLETED">
+          <header class="board-col__head">
+            <span class="board-col__dot"></span>
+            <h2>Done today</h2>
+            <span class="board-col__count" data-count="COMPLETED">0</span>
+          </header>
+          <div class="board-col__list" data-list="COMPLETED"></div>
+        </div>
+
+        <div class="board-col" data-status="CANCELLED" hidden>
+          <header class="board-col__head">
+            <span class="board-col__dot"></span>
+            <h2>Cancelled</h2>
+            <span class="board-col__count" data-count="CANCELLED">0</span>
+          </header>
+          <div class="board-col__list" data-list="CANCELLED"></div>
+        </div>
+      </section>
+
+      <!-- ================= LIST VIEW (Table) ================= -->
+      <section class="admin-card table-card" id="listView" hidden>
+        <div class="table-wrap">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>Order</th>
+                <th>Customer</th>
+                <th>Items</th>
+                <th>Type</th>
+                <th>Payment</th>
+                <th>Total</th>
+                <th>Status</th>
+                <th>Placed</th>
+                <th><span class="sr-only">Actions</span></th>
+              </tr>
+            </thead>
+            <tbody id="ordersTableBody"></tbody>
+          </table>
+        </div>
+        <p class="empty-inline" id="noOrdersList" hidden>No orders match your filters.</p>
+      </section>
+
+      <!-- Empty state (no orders at all) -->
+      <section class="empty-state" id="noOrders" hidden>
+        <img src="../assets/images/products/fries.svg" alt="" class="anim-float" />
+        <h3>No orders yet</h3>
+        <p>Open the store in another tab and place an order. It will appear here instantly.</p>
+        <div class="empty-state__actions">
+          <a href="../index.html" target="_blank" class="btn btn--primary">Open store ↗</a>
+          <a href="dashboard.html" class="btn">Generate sample orders</a>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- ================= ORDER DETAILS MODAL ================= -->
+  <div class="modal" id="orderModal" aria-hidden="true">
+    <div class="modal__overlay" data-close-modal></div>
+    <div class="modal__dialog modal__dialog--small modal__dialog--wide" role="dialog" aria-modal="true" aria-labelledby="omTitle">
+      <button class="modal__close icon-btn" data-close-modal aria-label="Close">✕</button>
+
+      <div class="order-detail">
+        <header class="order-detail__head">
+          <div>
+            <h2 id="omTitle">#BV-0000</h2>
+            <small id="omPlaced">Placed —</small>
+          </div>
+          <span class="status-pill" id="omStatus" data-status="PENDING">Pending</span>
+        </header>
+
+        <div class="order-detail__grid">
+          <!-- Customer -->
+          <section class="od-box">
+            <h3>👤 Customer</h3>
+            <p><strong id="omName">—</strong></p>
+            <p id="omPhone">—</p>
+            <p class="od-box__muted" id="omEmail">—</p>
+          </section>
+
+          <!-- Delivery -->
+          <section class="od-box">
+            <h3 id="omTypeTitle">🛵 Delivery</h3>
+            <p id="omAddress">—</p>
+            <p class="od-box__muted" id="omTiming">ASAP</p>
+          </section>
+
+          <!-- Payment -->
+          <section class="od-box">
+            <h3>💳 Payment</h3>
+            <p><strong id="omPayment">—</strong></p>
+            <p class="od-box__muted" id="omPaid">—</p>
+          </section>
+        </div>
+
+        <!-- Note from customer -->
+        <div class="od-note" id="omNoteBox" hidden>
+          <strong>📝 Note:</strong> <span id="omNote"></span>
+        </div>
+
+        <!-- Items -->
+        <ul class="mini-list od-items" id="omItems"></ul>
+
+        <dl class="summary__rows">
+          <div class="summary__row"><dt>Subtotal</dt><dd id="omSubtotal">₱0</dd></div>
+          <div class="summary__row"><dt>Delivery</dt><dd id="omDelivery">₱0</dd></div>
+          <div class="summary__row summary__row--discount" id="omDiscountRow" hidden><dt>Discount</dt><dd id="omDiscount">−₱0</dd></div>
+          <div class="summary__row summary__row--total"><dt>Total</dt><dd id="omTotal">₱0</dd></div>
+        </dl>
+
+        <!-- Timeline -->
+        <ol class="od-timeline" id="omTimeline"></ol>
+
+        <!-- Actions -->
+        <footer class="order-detail__actions">
+          <div class="od-cancel" id="omCancelBox">
+            <select id="omCancelReason" class="select select--sm" aria-label="Cancel reason">
+              <option>Out of stock</option>
+              <option>Customer request</option>
+              <option>Store closing</option>
+              <option>Unable to deliver</option>
+            </select>
+            <button class="btn btn--sm" id="omCancelBtn" type="button">✕ Cancel order</button>
+          </div>
+          <button class="btn btn--sm" id="omPrintBtn" type="button">🖨 Kitchen ticket</button>
+          <button class="btn btn--primary" id="omNextBtn" type="button">Next step →</button>
+        </footer>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toasts -->
+  <div class="toasts" id="toasts" aria-live="polite"></div>
+
+  <!-- ================= SCRIPTS ================= -->
+  <script src="../js/data/products.js"></script>
+  <script src="../js/core/storage.js"></script>
+  <script src="../js/core/auth.js"></script>
+  <script>Auth.guardAdmin();</script>
+  <script src="../js/core/cart.js"></script>
+  <script src="../js/core/orders.js"></script>
+  <script src="../js/ui/toast.js"></script>
+  <script src="../js/ui/modal.js"></script>
+  <script src="../js/ui/adminShell.js"></script>
+  <script src="../js/pages/admin-orders.js"></script>
+</body>
+</html>

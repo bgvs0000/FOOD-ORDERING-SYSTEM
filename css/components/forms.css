@@ -1,0 +1,415 @@
+/* ==========================================================
+   FIELDS
+   ========================================================== */
+.field {
+  display: grid;
+  gap: 6px;
+  margin-bottom: var(--sp-4);
+}
+
+.field label,
+.opt-group legend {
+  font-size: var(--fs-sm);
+  font-weight: 800;
+}
+
+/* ---------- Text inputs / select / textarea ---------- */
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="tel"],
+input[type="number"],
+input[type="date"],
+input[type="search"],
+select,
+textarea,
+.select {
+  width: 100%;
+  padding: 13px 16px;
+  font-size: var(--fs-base);
+  font-weight: 500;
+  background: var(--white);
+  border: var(--border);
+  border-radius: var(--r-sm);
+  outline: none;
+  transition: box-shadow var(--t-fast), transform var(--t-fast), background var(--t-fast);
+}
+
+textarea {
+  resize: vertical;
+  min-height: 80px;
+  line-height: 1.5;
+}
+
+input::placeholder,
+textarea::placeholder { color: #A9A095; }
+
+/* focus = lumalabas ang hard shadow */
+input:focus,
+select:focus,
+textarea:focus {
+  box-shadow: var(--shadow-sm);
+  transform: translate(-1px, -1px);
+  background: #FFFDF8;
+}
+
+input:disabled {
+  color: var(--muted);
+  background: var(--cream);
+  cursor: not-allowed;
+}
+
+/* ---------- Custom select arrow ---------- */
+select,
+.select {
+  appearance: none;
+  padding-right: 44px;
+  cursor: pointer;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='9' viewBox='0 0 14 9'%3E%3Cpath d='M1 1l6 6 6-6' fill='none' stroke='%231E1E1E' stroke-width='2.5' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 16px center;
+}
+
+/* ---------- Hint & error text ---------- */
+.field__hint {
+  font-size: var(--fs-xs);
+  color: var(--muted);
+}
+
+.field__error {
+  min-height: 0;
+  font-size: var(--fs-xs);
+  font-weight: 700;
+  color: var(--red);
+}
+.field__error:empty { display: none; }
+
+/* idinadagdag ng JS kapag invalid */
+.field.has-error input,
+.field.has-error select,
+.field.has-error textarea {
+  background: #FFF1F0;
+  border-color: var(--red);
+  box-shadow: 3px 3px 0 var(--red);
+}
+.field.has-error { animation: shake 0.35s ease; }
+
+.field.is-valid input { border-color: var(--green); }
+
+/* Error message ng buong form (e.g. "Wrong password") */
+.form-error {
+  padding: 10px 14px;
+  margin-bottom: var(--sp-4);
+  font-size: var(--fs-sm);
+  font-weight: 700;
+  color: var(--red);
+  background: #FFF1F0;
+  border: 2px solid var(--red);
+  border-radius: var(--r-sm);
+}
+.form-error:empty { display: none; }
+
+/* ==========================================================
+   LAYOUT HELPERS
+   ========================================================== */
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0 var(--sp-4);
+}
+.form-grid--3 { grid-template-columns: 2fr 1fr 1fr; }
+
+.field-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-3);
+  margin-bottom: var(--sp-4);
+  font-size: var(--fs-sm);
+}
+
+@media (max-width: 600px) {
+  .form-grid,
+  .form-grid--3 { grid-template-columns: 1fr; }
+}
+
+/* ==========================================================
+   PASSWORD FIELD + STRENGTH METER
+   ========================================================== */
+.field__pw { position: relative; }
+.field__pw input { padding-right: 52px; }
+
+.pw-toggle {
+  position: absolute;
+  top: 50%;
+  right: 8px;
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  font-size: 1rem;
+  border-radius: 8px;
+  transform: translateY(-50%);
+  opacity: 0.6;
+  transition: opacity var(--t-fast), background var(--t-fast);
+}
+.pw-toggle:hover { opacity: 1; background: var(--cream); }
+.pw-toggle.is-shown { opacity: 1; }
+
+.pw-meter {
+  height: 6px;
+  overflow: hidden;
+  background: var(--line);
+  border-radius: var(--r-pill);
+}
+.pw-meter span {
+  display: block;
+  width: 0;
+  height: 100%;
+  border-radius: inherit;
+  transition: width var(--t), background var(--t);
+}
+/* data-strength set by JS: 1 weak → 4 strong */
+.pw-meter[data-strength="1"] span { width: 25%;  background: var(--red); }
+.pw-meter[data-strength="2"] span { width: 50%;  background: #FF8A1F; }
+.pw-meter[data-strength="3"] span { width: 75%;  background: var(--mustard); }
+.pw-meter[data-strength="4"] span { width: 100%; background: var(--green); }
+
+/* ==========================================================
+   CHECKBOX (custom)
+   ========================================================== */
+.checkbox {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: var(--sp-4);
+  font-size: var(--fs-sm);
+  font-weight: 600;
+  cursor: pointer;
+  user-select: none;
+}
+
+.checkbox input {
+  appearance: none;
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  background: var(--white);
+  border: var(--border-thin);
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background var(--t-fast);
+}
+.checkbox input::after {
+  content: "✓";
+  font-size: 14px;
+  font-weight: 900;
+  color: var(--white);
+  transform: scale(0);
+  transition: transform var(--t-fast) var(--ease-bounce);
+}
+.checkbox input:checked { background: var(--red); }
+.checkbox input:checked::after { transform: scale(1); }
+.checkbox input:focus-visible { outline: 3px dashed var(--red); outline-offset: 2px; }
+
+/* ==========================================================
+   SWITCH (toggle)
+   ========================================================== */
+.switch {
+  position: relative;
+  flex-shrink: 0;
+  display: inline-block;
+  width: 56px;
+  height: 32px;
+  cursor: pointer;
+}
+.switch input {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+.switch span {
+  position: absolute;
+  inset: 0;
+  background: var(--line);
+  border: var(--border-thin);
+  border-radius: var(--r-pill);
+  transition: background var(--t);
+}
+.switch span::before {
+  content: "";
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 22px;
+  height: 22px;
+  background: var(--white);
+  border: var(--border-thin);
+  border-radius: 50%;
+  transition: transform var(--t) var(--ease-bounce);
+}
+.switch input:checked + span { background: var(--green); }
+.switch input:checked + span::before { transform: translateX(24px); }
+.switch input:focus-visible + span { outline: 3px dashed var(--red); outline-offset: 3px; }
+
+/* ==========================================================
+   PILL TOGGLES (multi-select chips: remove ingredients, tags)
+   ========================================================== */
+.pill-toggles {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-2);
+}
+.pill-toggle input { position: absolute; opacity: 0; pointer-events: none; }
+.pill-toggle span {
+  display: inline-block;
+  padding: 8px 16px;
+  font-size: var(--fs-sm);
+  font-weight: 700;
+  background: var(--white);
+  border: var(--border-thin);
+  border-radius: var(--r-pill);
+  cursor: pointer;
+  transition: background var(--t-fast), transform var(--t-fast);
+}
+.pill-toggle span:hover { transform: translateY(-2px); }
+.pill-toggle input:checked + span {
+  color: var(--white);
+  background: var(--dark);
+  box-shadow: 2px 2px 0 var(--red);
+}
+.pill-toggle input:checked + span::before { content: "✓ "; }
+.pill-toggle input:focus-visible + span { outline: 3px dashed var(--red); outline-offset: 2px; }
+
+/* ==========================================================
+   SEGMENTED CONTROL (Delivery / Pickup, ASAP / Schedule)
+   ========================================================== */
+.segmented {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: var(--sp-3);
+  margin-bottom: var(--sp-4);
+}
+.segmented__opt input { position: absolute; opacity: 0; pointer-events: none; }
+.segmented__opt span {
+  display: grid;
+  gap: 2px;
+  padding: 14px 18px;
+  font-weight: 800;
+  background: var(--white);
+  border: var(--border);
+  border-radius: var(--r);
+  cursor: pointer;
+  transition: transform var(--t-fast), box-shadow var(--t-fast), background var(--t-fast);
+}
+.segmented__opt small {
+  font-size: var(--fs-xs);
+  font-weight: 600;
+  color: var(--muted);
+}
+.segmented__opt span:hover { transform: translateY(-2px); }
+.segmented__opt input:checked + span {
+  background: var(--mustard);
+  box-shadow: var(--shadow-sm);
+}
+.segmented__opt input:checked + span small { color: var(--dark); }
+.segmented__opt input:focus-visible + span { outline: 3px dashed var(--red); outline-offset: 3px; }
+
+/* ==========================================================
+   SEARCH BAR
+   ========================================================== */
+.search {
+  position: relative;
+  flex: 1;
+  display: flex;
+  align-items: center;
+}
+.search svg {
+  position: absolute;
+  left: 16px;
+  color: var(--muted);
+  pointer-events: none;
+}
+.search input {
+  padding: 14px 18px 14px 48px;
+  border-radius: var(--r-pill);
+  box-shadow: var(--shadow-sm);
+}
+.search input:focus { box-shadow: var(--shadow); }
+.search--sm input { padding-block: 10px; }
+
+/* ==========================================================
+   QUANTITY STEPPER
+   ========================================================== */
+.qty {
+  display: inline-flex;
+  align-items: center;
+  overflow: hidden;
+  background: var(--white);
+  border: var(--border);
+  border-radius: var(--r-pill);
+  box-shadow: var(--shadow-sm);
+}
+.qty__btn {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  font-size: 1.3rem;
+  font-weight: 800;
+  transition: background var(--t-fast);
+}
+.qty__btn:hover { background: var(--mustard); }
+.qty__btn:disabled { opacity: 0.3; pointer-events: none; }
+
+.qty__input,
+.qty__value {
+  width: 44px;
+  padding: 0 !important;
+  font-weight: 800;
+  text-align: center;
+  border: none !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  transform: none !important;
+  -moz-appearance: textfield;
+}
+.qty__input::-webkit-outer-spin-button,
+.qty__input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+
+.qty--sm .qty__btn { width: 34px; height: 34px; font-size: 1.1rem; }
+.qty--sm .qty__input,
+.qty--sm .qty__value { width: 32px; font-size: var(--fs-sm); }
+
+/* ==========================================================
+   DIVIDER ("or with email")
+   ========================================================== */
+.divider {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  margin: var(--sp-5) 0;
+  font-size: var(--fs-xs);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.divider::before,
+.divider::after {
+  content: "";
+  flex: 1;
+  height: 2px;
+  background: var(--line);
+}
+
+/* Demo credentials hint sa login */
+.demo-hint {
+  margin-top: var(--sp-4);
+  font-size: var(--fs-xs);
+  text-align: center;
+  color: var(--muted);
+}

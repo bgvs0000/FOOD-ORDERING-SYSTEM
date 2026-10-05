@@ -1,0 +1,317 @@
+/* ==========================================================
+   1) LANDING NAVBAR  (.nav)
+   ========================================================== */
+.nav {
+  position: sticky;
+  top: 0;
+  z-index: var(--z-nav);
+  padding-block: 14px;
+  background: transparent;
+  transition: background var(--t), box-shadow var(--t), padding var(--t);
+}
+
+/* idinadagdag ng landing.js kapag nag-scroll na */
+.nav.is-scrolled {
+  padding-block: 10px;
+  background: var(--cream);
+  border-bottom: var(--border);
+}
+
+.nav__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-5);
+}
+
+/* ---------- Logo (shared by all navbars + footer) ---------- */
+.nav__logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  text-transform: uppercase;
+  letter-spacing: -0.01em;
+}
+.nav__logo img {
+  transition: transform 0.5s var(--ease-bounce);
+}
+.nav__logo:hover img { transform: rotate(-15deg) scale(1.1); }
+.nav__logo--light { color: var(--white); }
+
+/* ---------- Links ---------- */
+.nav__links {
+  display: flex;
+  gap: var(--sp-2);
+}
+.nav__links a {
+  position: relative;
+  padding: 8px 14px;
+  font-weight: 700;
+  border-radius: var(--r-pill);
+  transition: background var(--t-fast);
+}
+.nav__links a:hover { background: var(--mustard); }
+
+.nav__actions {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+}
+
+/* ---------- Hamburger toggle (mobile) ---------- */
+.nav__burger {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  width: 46px;
+  height: 46px;
+  padding: 0 11px;
+  background: var(--white);
+  border: var(--border);
+  border-radius: 12px;
+  box-shadow: var(--shadow-sm);
+}
+.nav__burger span {
+  display: block;
+  height: 3px;
+  background: var(--dark);
+  border-radius: 3px;
+  transition: transform var(--t), opacity var(--t);
+}
+.nav.is-open .nav__burger span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+.nav.is-open .nav__burger span:nth-child(2) { opacity: 0; }
+.nav.is-open .nav__burger span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+
+@media (max-width: 860px) {
+  .nav__burger { display: flex; }
+
+  .nav__links {
+    position: absolute;
+    top: calc(100% + 8px);
+    left: var(--gutter);
+    right: var(--gutter);
+    flex-direction: column;
+    gap: 4px;
+    padding: var(--sp-4);
+    background: var(--white);
+    border: var(--border);
+    border-radius: var(--r);
+    box-shadow: var(--shadow);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-12px);
+    transition: opacity var(--t), transform var(--t), visibility var(--t);
+  }
+  .nav__links a { padding: 12px 16px; font-size: var(--fs-md); }
+
+  .nav.is-open .nav__links {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 420px) {
+  .nav__logo { font-size: 1.15rem; }
+  .nav__logo img { width: 32px; height: 32px; }
+  .nav__actions .btn { padding: 9px 12px; font-size: 0.75rem; }
+}
+
+/* ==========================================================
+   2) APP NAVBAR  (.app-nav)  — rendered by js/ui/navbar.js
+   ========================================================== */
+.app-nav {
+  position: sticky;
+  top: 0;
+  z-index: var(--z-nav);
+  height: var(--nav-h);
+  background: var(--cream);
+  border-bottom: var(--border);
+}
+
+.app-nav__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-5);
+  height: 100%;
+}
+
+.app-nav__links {
+  display: flex;
+  gap: 6px;
+  padding: 5px;
+  background: var(--white);
+  border: var(--border);
+  border-radius: var(--r-pill);
+  box-shadow: var(--shadow-sm);
+}
+.app-nav__links a {
+  padding: 8px 18px;
+  font-size: var(--fs-sm);
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  border-radius: var(--r-pill);
+  transition: background var(--t-fast), color var(--t-fast);
+}
+.app-nav__links a:hover { background: var(--cream-2); }
+.app-nav__links a.is-active {
+  color: var(--white);
+  background: var(--dark);
+}
+
+.app-nav__right {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-4);
+}
+
+/* cart badge bounce kapag nag-add (class added by JS) */
+.icon-btn__badge.bump { animation: bounce 0.5s var(--ease-bounce); }
+
+/* ---------- User dropdown ---------- */
+.user-menu { position: relative; }
+
+.user-menu__btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 12px 4px 4px;
+  font-weight: 700;
+  background: var(--white);
+  border: var(--border);
+  border-radius: var(--r-pill);
+  box-shadow: var(--shadow-sm);
+  transition: transform var(--t-fast);
+}
+.user-menu__btn:hover { transform: translateY(-2px); }
+.user-menu__btn .avatar { width: 34px; height: 34px; font-size: 0.8rem; border-width: 2px; }
+.user-menu__caret { font-size: 0.7rem; transition: transform var(--t); }
+.user-menu.is-open .user-menu__caret { transform: rotate(180deg); }
+
+.user-menu__dropdown {
+  position: absolute;
+  top: calc(100% + 12px);
+  right: 0;
+  width: 240px;
+  padding: var(--sp-2);
+  background: var(--white);
+  border: var(--border);
+  border-radius: var(--r);
+  box-shadow: var(--shadow);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-10px) scale(0.97);
+  transform-origin: top right;
+  transition: opacity var(--t-fast), transform var(--t-fast), visibility var(--t-fast);
+}
+.user-menu.is-open .user-menu__dropdown {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0) scale(1);
+}
+
+.user-menu__head {
+  padding: 10px 12px 12px;
+  margin-bottom: 6px;
+  border-bottom: 2px dashed var(--line);
+}
+.user-menu__head strong { display: block; }
+.user-menu__head small  { color: var(--muted); word-break: break-all; }
+
+.user-menu__dropdown a,
+.user-menu__dropdown button {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 10px 12px;
+  font-weight: 600;
+  text-align: left;
+  border-radius: var(--r-sm);
+  transition: background var(--t-fast);
+}
+.user-menu__dropdown a:hover,
+.user-menu__dropdown button:hover { background: var(--cream); }
+.user-menu__dropdown [data-logout] { color: var(--red); }
+
+/* ---------- App nav responsive ---------- */
+@media (max-width: 860px) {
+  .app-nav { height: 64px; }
+  .app-nav__links { display: none; }   /* bottom nav na ang gagamitin */
+  .user-menu__name,
+  .user-menu__caret { display: none; }
+  .user-menu__btn { padding: 3px; }
+}
+
+/* ==========================================================
+   3) BOTTOM NAV (mobile only)
+   ========================================================== */
+.bottom-nav { display: none; }
+
+@media (max-width: 860px) {
+  .bottom-nav {
+    position: fixed;
+    left: 12px;
+    right: 12px;
+    bottom: 12px;
+    z-index: var(--z-nav);
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    height: var(--bottom-nav-h);
+    padding: 6px;
+    background: var(--dark);
+    border: var(--border);
+    border-radius: 22px;
+    box-shadow: 4px 4px 0 var(--red);
+  }
+
+  .bottom-nav__link {
+    position: relative;
+    display: grid;
+    place-items: center;
+    align-content: center;
+    gap: 2px;
+    font-size: 0.65rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: rgba(255, 255, 255, 0.6);
+    border-radius: 16px;
+    transition: color var(--t-fast), background var(--t-fast);
+  }
+  .bottom-nav__icon {
+    font-size: 1.25rem;
+    line-height: 1;
+    transition: transform var(--t) var(--ease-bounce);
+  }
+  .bottom-nav__link.is-active {
+    color: var(--dark);
+    background: var(--mustard);
+  }
+  .bottom-nav__link.is-active .bottom-nav__icon { transform: translateY(-2px) scale(1.15); }
+
+  .bottom-nav__badge {
+    position: absolute;
+    top: 4px;
+    right: calc(50% - 22px);
+    display: grid;
+    place-items: center;
+    min-width: 18px;
+    height: 18px;
+    padding: 0 4px;
+    font-size: 0.6rem;
+    color: var(--white);
+    background: var(--red);
+    border: 2px solid var(--dark);
+    border-radius: var(--r-pill);
+  }
+  .bottom-nav__badge[data-count="0"] { display: none; }
+
+  /* para hindi matakpan ng bottom nav ang content */
+  body.app { padding-bottom: calc(var(--bottom-nav-h) + 28px); }
+}

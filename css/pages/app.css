@@ -1,0 +1,369 @@
+/* ==========================================================
+   APP — shared layout for /app/*.html
+   ========================================================== */
+
+body.app {
+  background:
+    radial-gradient(rgba(30, 30, 30, 0.06) 1.5px, transparent 2px) 0 0 / 24px 24px,
+    var(--cream);
+}
+
+.app-main {
+  padding-top: var(--sp-6);
+  padding-bottom: var(--sp-8);
+  animation: fade-up 0.5s var(--ease-out);
+}
+
+/* ==========================================================
+   PAGE HEADER  (title + action button)
+   ========================================================== */
+.page-head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--sp-4);
+  margin-bottom: var(--sp-6);
+}
+.page-head h1 {
+  font-size: clamp(2.2rem, 5vw, 3.6rem);
+}
+.page-head__sub {
+  margin-top: 8px;
+  font-weight: 600;
+  color: var(--muted);
+}
+
+/* ==========================================================
+   BREADCRUMB
+   ========================================================== */
+.breadcrumb {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: var(--sp-5);
+  font-size: var(--fs-sm);
+  font-weight: 600;
+  color: var(--muted);
+}
+.breadcrumb a {
+  padding: 6px 14px;
+  font-weight: 800;
+  color: var(--dark);
+  background: var(--white);
+  border: var(--border-thin);
+  border-radius: var(--r-pill);
+  box-shadow: var(--shadow-xs);
+  transition: transform var(--t-fast);
+}
+.breadcrumb a:hover { transform: translateX(-3px); }
+.breadcrumb strong { color: var(--dark); }
+
+/* ==========================================================
+   STEPPER  (Cart → Checkout → Track)
+   ========================================================== */
+.stepper {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  margin-bottom: var(--sp-6);
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.stepper::-webkit-scrollbar { display: none; }
+
+.stepper__item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+  font-size: var(--fs-sm);
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--muted);
+}
+
+/* connecting line */
+.stepper__item:not(:last-child)::after {
+  content: "";
+  width: clamp(24px, 6vw, 64px);
+  height: 3px;
+  margin-left: 4px;
+  background: var(--line);
+  border-radius: 3px;
+}
+
+.stepper__item span {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  background: var(--white);
+  border: var(--border-thin);
+  border-color: var(--line);
+  border-radius: 50%;
+}
+
+.stepper__item.is-active { color: var(--dark); }
+.stepper__item.is-active span {
+  color: var(--dark);
+  background: var(--mustard);
+  border: var(--border);
+  box-shadow: var(--shadow-xs);
+}
+
+.stepper__item.is-done { color: var(--dark); }
+.stepper__item.is-done span {
+  color: var(--white);
+  background: var(--green);
+  border: var(--border);
+}
+.stepper__item.is-done::after { background: var(--dark); }
+
+/* ==========================================================
+   SUMMARY  (sticky right box: cart, checkout, orders)
+   ========================================================== */
+.summary {
+  position: sticky;
+  top: calc(var(--nav-h) + 24px);
+  align-self: start;
+  padding: clamp(20px, 3vw, 28px);
+  background: var(--white);
+  border: var(--border);
+  border-radius: var(--r-lg);
+  box-shadow: var(--shadow-lg);
+}
+
+/* receipt-style zigzag edge sa taas */
+.summary::before {
+  content: "";
+  position: absolute;
+  top: -3px;
+  left: 24px;
+  right: 24px;
+  height: 10px;
+  background:
+    linear-gradient(135deg, var(--mustard) 25%, transparent 25%) 0 0 / 16px 16px,
+    linear-gradient(225deg, var(--mustard) 25%, transparent 25%) 0 0 / 16px 16px;
+}
+
+.summary__title {
+  margin-bottom: var(--sp-5);
+  font-size: 1.4rem;
+}
+
+.summary__rows {
+  display: grid;
+  gap: 10px;
+  padding: var(--sp-4) 0;
+  margin: var(--sp-4) 0;
+  border-block: 3px dashed var(--line);
+}
+
+.summary__row {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--sp-3);
+  font-weight: 600;
+}
+.summary__row dt { color: var(--muted); }
+.summary__row dd { font-weight: 800; }
+
+.summary__row--discount dd { color: var(--green); }
+.summary__row--discount .code { margin-left: 4px; font-size: 0.7rem; }
+
+.summary__row--total {
+  margin-top: 6px;
+  padding-top: 12px;
+  border-top: var(--border-thin);
+}
+.summary__row--total dt {
+  font-family: var(--font-display);
+  text-transform: uppercase;
+  color: var(--dark);
+}
+.summary__row--total dd {
+  font-family: var(--font-display);
+  font-size: 1.6rem;
+  line-height: 1;
+  color: var(--red);
+}
+
+.summary__perks {
+  display: grid;
+  gap: 8px;
+  margin-top: var(--sp-5);
+  font-size: var(--fs-sm);
+  font-weight: 600;
+}
+
+.summary__hint,
+.summary__legal {
+  margin-top: var(--sp-4);
+  font-size: var(--fs-xs);
+  color: var(--muted);
+  text-align: center;
+}
+
+/* ==========================================================
+   MINI LIST  (compact item rows: checkout, orders, receipt)
+   <li class="mini-item">
+     <img> <div><strong>Name</strong><small>Large · Bacon</small></div>
+     <span class="mini-item__qty">×2</span> <b>₱298</b>
+   </li>
+   ========================================================== */
+.mini-list {
+  display: grid;
+  gap: var(--sp-3);
+  max-height: 300px;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+.mini-item {
+  display: grid;
+  grid-template-columns: 48px 1fr auto auto;
+  align-items: center;
+  gap: var(--sp-3);
+}
+.mini-item img {
+  width: 48px;
+  height: 48px;
+  padding: 4px;
+  object-fit: contain;
+  background: var(--cream);
+  border: var(--border-thin);
+  border-radius: 12px;
+}
+.mini-item strong {
+  display: block;
+  font-size: var(--fs-sm);
+  line-height: 1.2;
+}
+.mini-item small {
+  display: block;
+  font-size: var(--fs-xs);
+  color: var(--muted);
+}
+.mini-item__qty {
+  font-size: var(--fs-sm);
+  font-weight: 800;
+  color: var(--muted);
+}
+.mini-item b { font-size: var(--fs-sm); }
+
+/* ==========================================================
+   STATUS PILL  (used in orders + history)
+   <span class="status-pill" data-status="PREPARING">Preparing</span>
+   ========================================================== */
+.status-pill {
+  --c: var(--st-pending);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px;
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  background: var(--c);
+  border: var(--border-thin);
+  border-radius: var(--r-pill);
+}
+.status-pill::before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  background: var(--dark);
+  border-radius: 50%;
+}
+.status-pill[data-status="PENDING"]          { --c: var(--st-pending); }
+.status-pill[data-status="CONFIRMED"]        { --c: var(--st-confirmed); color: var(--white); }
+.status-pill[data-status="PREPARING"]        { --c: var(--st-preparing); }
+.status-pill[data-status="OUT_FOR_DELIVERY"] { --c: var(--st-delivery); color: var(--white); }
+.status-pill[data-status="COMPLETED"]        { --c: var(--st-completed); color: var(--white); }
+.status-pill[data-status="CANCELLED"]        { --c: var(--st-cancelled); color: var(--white); }
+
+.status-pill[data-status="CONFIRMED"]::before,
+.status-pill[data-status="OUT_FOR_DELIVERY"]::before,
+.status-pill[data-status="COMPLETED"]::before,
+.status-pill[data-status="CANCELLED"]::before { background: var(--white); }
+
+/* ==========================================================
+   FLOATING CART BUTTON (home, mobile)
+   ========================================================== */
+.fab-cart {
+  position: fixed;
+  left: 50%;
+  bottom: calc(var(--bottom-nav-h) + 24px);
+  z-index: var(--z-fab);
+  display: none;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 12px 12px 20px;
+  font-weight: 800;
+  color: var(--white);
+  background: var(--red);
+  border: var(--border);
+  border-radius: var(--r-pill);
+  box-shadow: var(--shadow);
+  transform: translateX(-50%);
+  animation: pop-in 0.4s var(--ease-bounce);
+}
+.fab-cart__total {
+  padding: 6px 12px;
+  color: var(--dark);
+  background: var(--mustard);
+  border: var(--border-thin);
+  border-radius: var(--r-pill);
+}
+
+/* JS adds .has-items kapag may laman ang cart */
+@media (max-width: 860px) {
+  .fab-cart.has-items { display: inline-flex; }
+}
+
+/* ==========================================================
+   MOBILE STICKY CHECKOUT BAR (cart)
+   ========================================================== */
+.mobile-checkout { display: none; }
+
+@media (max-width: 860px) {
+  .mobile-checkout {
+    position: fixed;
+    left: 12px;
+    right: 12px;
+    bottom: calc(var(--bottom-nav-h) + 24px);
+    z-index: var(--z-fab);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--sp-3);
+    padding: 10px 10px 10px 20px;
+    background: var(--white);
+    border: var(--border);
+    border-radius: var(--r-pill);
+    box-shadow: var(--shadow);
+  }
+  .mobile-checkout small { display: block; font-size: var(--fs-xs); color: var(--muted); }
+  .mobile-checkout strong { font-family: var(--font-display); font-size: 1.3rem; }
+  .mobile-checkout[hidden] { display: none; }
+}
+
+/* ==========================================================
+   RESPONSIVE
+   ========================================================== */
+@media (max-width: 960px) {
+  .summary {
+    position: static;
+    box-shadow: var(--shadow);
+  }
+}
+
+@media (max-width: 560px) {
+  .app-main { padding-top: var(--sp-5); }
+  .page-head { margin-bottom: var(--sp-5); }
+  .stepper__item { font-size: 0.7rem; }
+}

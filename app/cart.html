@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Your Cart — Bun Voyage</title>
+  <link rel="icon" href="../assets/images/products/burger-classic.svg" />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Inter:wght@400;500;600;800&display=swap" rel="stylesheet" />
+
+  <!-- Base -->
+  <link rel="stylesheet" href="../css/base/reset.css" />
+  <link rel="stylesheet" href="../css/base/variables.css" />
+  <link rel="stylesheet" href="../css/base/typography.css" />
+  <!-- Components -->
+  <link rel="stylesheet" href="../css/components/buttons.css" />
+  <link rel="stylesheet" href="../css/components/navbar.css" />
+  <link rel="stylesheet" href="../css/components/cards.css" />
+  <link rel="stylesheet" href="../css/components/forms.css" />
+  <link rel="stylesheet" href="../css/components/toast.css" />
+  <!-- Page -->
+  <link rel="stylesheet" href="../css/animations.css" />
+  <link rel="stylesheet" href="../css/pages/app.css" />
+  <link rel="stylesheet" href="../css/pages/cart.css" />
+</head>
+
+<body class="app" data-page="cart">
+
+  <header class="app-nav" id="appNav"></header>
+
+  <main class="app-main container">
+
+    <!-- Page header -->
+    <div class="page-head">
+      <div>
+        <h1>Your <span class="hl-box">Cart</span></h1>
+        <p class="page-head__sub" id="cartCountText">0 items</p>
+      </div>
+      <button class="btn btn--sm" id="clearCartBtn" hidden>🗑 Clear cart</button>
+    </div>
+
+    <!-- Checkout steps indicator -->
+    <ol class="stepper" aria-label="Checkout progress">
+      <li class="stepper__item is-active"><span>1</span> Cart</li>
+      <li class="stepper__item"><span>2</span> Checkout</li>
+      <li class="stepper__item"><span>3</span> Track</li>
+    </ol>
+
+    <!-- ================= CART LAYOUT ================= -->
+    <section class="cart-layout" id="cartLayout">
+
+      <!-- LEFT: items -->
+      <div class="cart-items">
+
+        <!-- Free delivery progress -->
+        <div class="free-delivery" id="freeDelivery">
+          <p id="freeDeliveryText">Add <strong>₱500</strong> more for <strong>FREE delivery</strong> 🛵</p>
+          <div class="progress"><span id="freeDeliveryBar" style="width:0%"></span></div>
+        </div>
+
+        <!-- Items list (rendered by js/pages/cart.js) -->
+        <ul class="cart-list" id="cartList"></ul>
+
+        <!-- Upsell -->
+        <div class="upsell" id="upsell">
+          <h3>Make it a meal? 🍟🥤</h3>
+          <div class="upsell__grid" id="upsellGrid"></div>
+        </div>
+
+        <a href="home.html" class="link back-link">← Continue shopping</a>
+      </div>
+
+      <!-- RIGHT: summary -->
+      <aside class="summary" aria-label="Order summary">
+        <h2 class="summary__title">Order Summary</h2>
+
+        <!-- Promo code -->
+        <form class="promo" id="promoForm" novalidate>
+          <label for="promoInput" class="sr-only">Promo code</label>
+          <input type="text" id="promoInput" placeholder="Promo code" autocomplete="off" />
+          <button type="submit" class="btn btn--sm btn--dark">Apply</button>
+        </form>
+        <p class="promo__msg" id="promoMsg"></p>
+
+        <dl class="summary__rows">
+          <div class="summary__row"><dt>Subtotal</dt><dd id="sumSubtotal">₱0</dd></div>
+          <div class="summary__row"><dt>Delivery fee</dt><dd id="sumDelivery">₱0</dd></div>
+          <div class="summary__row summary__row--discount" id="discountRow" hidden>
+            <dt>Discount <span class="code" id="discountCode"></span></dt>
+            <dd id="sumDiscount">−₱0</dd>
+          </div>
+          <div class="summary__row summary__row--total"><dt>Total</dt><dd id="sumTotal">₱0</dd></div>
+        </dl>
+
+        <a href="checkout.html" class="btn btn--primary btn--block btn--lg" id="checkoutBtn">
+          Proceed to Checkout →
+        </a>
+
+        <ul class="summary__perks">
+          <li>🔒 Secure checkout</li>
+          <li>⏱ Delivered in ~25 min</li>
+          <li>💸 GCash, Card, or COD</li>
+        </ul>
+
+        <p class="summary__hint">Try codes: <code>FIRSTBITE</code> (20% off) · <code>FREESHIP</code></p>
+      </aside>
+    </section>
+
+    <!-- ================= EMPTY STATE ================= -->
+    <section class="empty-state" id="emptyCart" hidden>
+      <img src="../assets/images/products/burger-classic.svg" alt="" class="anim-float" />
+      <h3>Your cart is empty</h3>
+      <p>Looks like you haven't added any burgers yet.</p>
+      <a href="home.html" class="btn btn--primary btn--lg">Browse the menu</a>
+    </section>
+  </main>
+
+  <!-- Mobile sticky checkout bar -->
+  <div class="mobile-checkout" id="mobileCheckout">
+    <div><small>Total</small><strong id="mobileTotal">₱0</strong></div>
+    <a href="checkout.html" class="btn btn--primary">Checkout →</a>
+  </div>
+
+  <nav class="bottom-nav" id="bottomNav" aria-label="Mobile"></nav>
+  <div class="toasts" id="toasts" aria-live="polite"></div>
+
+  <!-- ================= SCRIPTS ================= -->
+  <script src="../js/data/products.js"></script>
+  <script src="../js/core/storage.js"></script>
+  <script src="../js/core/auth.js"></script>
+  <script>Auth.guard();</script>
+  <script src="../js/core/cart.js"></script>
+  <script src="../js/ui/toast.js"></script>
+  <script src="../js/ui/navbar.js"></script>
+  <script src="../js/pages/cart.js"></script>
+</body>
+</html>

@@ -1,0 +1,296 @@
+/* ==========================================================
+   MODAL — base
+   Hidden by default. JS adds .is-open to show.
+   ========================================================== */
+.modal {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-modal);
+  display: grid;
+  place-items: center;
+  padding: var(--sp-4);
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.modal.is-open {
+  visibility: visible;
+  pointer-events: auto;
+}
+
+/* lock page scroll habang bukas ang modal (class added by modal.js) */
+body.modal-open { overflow: hidden; }
+
+/* ---------- Overlay ---------- */
+.modal__overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(30, 30, 30, 0.55);
+  backdrop-filter: blur(4px);
+  opacity: 0;
+  transition: opacity var(--t) ease;
+}
+.modal.is-open .modal__overlay { opacity: 1; }
+
+/* ---------- Dialog box ---------- */
+.modal__dialog {
+  position: relative;
+  display: grid;
+  grid-template-columns: 0.85fr 1fr;
+  width: min(880px, 100%);
+  max-height: calc(100vh - 32px);
+  max-height: calc(100dvh - 32px);
+  overflow: hidden;
+  background: var(--cream);
+  border: var(--border);
+  border-radius: var(--r-lg);
+  box-shadow: var(--shadow-lg);
+  opacity: 0;
+  transform: translateY(40px) scale(0.92) rotate(-1deg);
+  transition:
+    opacity var(--t) ease,
+    transform 0.45s var(--ease-bounce);
+}
+.modal.is-open .modal__dialog {
+  opacity: 1;
+  transform: translateY(0) scale(1) rotate(0);
+}
+
+/* Small single-column dialog (success, confirm, receipt) */
+.modal__dialog--small {
+  display: block;
+  width: min(460px, 100%);
+  overflow-y: auto;
+  padding: clamp(24px, 4vw, 36px);
+}
+
+/* ---------- Close button ---------- */
+.modal__close {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  z-index: 3;
+}
+
+/* ==========================================================
+   AUTH MODAL — left visual side
+   ========================================================== */
+.modal__side {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sp-5);
+  padding: var(--sp-7) var(--sp-5);
+  overflow: hidden;
+  text-align: center;
+  color: var(--white);
+  background: var(--red);
+  border-right: var(--border);
+}
+
+/* sunburst rays sa likod */
+.modal__side::before {
+  content: "";
+  position: absolute;
+  inset: -50%;
+  background: repeating-conic-gradient(
+    from 0deg,
+    rgba(255, 255, 255, 0.08) 0deg 12deg,
+    transparent 12deg 24deg
+  );
+  animation: spin-slow 40s linear infinite;
+}
+
+.modal__side img {
+  position: relative;
+  width: min(240px, 80%);
+  filter: drop-shadow(8px 10px 0 rgba(30, 30, 30, 0.35));
+}
+
+.modal__side .display {
+  position: relative;
+  font-size: clamp(1.3rem, 2.4vw, 1.8rem);
+  line-height: 1.1;
+  text-shadow: 3px 3px 0 var(--dark);
+}
+
+/* ==========================================================
+   AUTH MODAL — right form side
+   ========================================================== */
+.modal__body {
+  padding: clamp(24px, 4vw, 44px);
+  overflow-y: auto;
+}
+
+.modal__title {
+  padding-right: 48px;  /* space para sa close button */
+  font-size: clamp(1.6rem, 3vw, 2.2rem);
+}
+
+.modal__sub {
+  margin: 6px 0 var(--sp-5);
+  color: var(--muted);
+}
+
+/* ---------- Tabs (Log In / Register) ---------- */
+.tabs {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  padding: 5px;
+  margin-bottom: var(--sp-5);
+  background: var(--white);
+  border: var(--border);
+  border-radius: var(--r-pill);
+}
+
+.tabs__btn {
+  position: relative;
+  z-index: 1;
+  padding: 10px;
+  font-weight: 800;
+  font-size: var(--fs-sm);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  border-radius: var(--r-pill);
+  transition: color var(--t);
+}
+.tabs__btn.is-active { color: var(--white); }
+
+/* sliding background — moves under the active tab */
+.tabs__indicator {
+  position: absolute;
+  top: 5px;
+  bottom: 5px;
+  left: 5px;
+  width: calc(50% - 5px);
+  background: var(--dark);
+  border-radius: var(--r-pill);
+  transition: transform 0.4s var(--ease-bounce);
+}
+.tabs[data-active="register"] .tabs__indicator { transform: translateX(100%); }
+
+/* ---------- Forms switch ---------- */
+.auth-form { display: none; }
+.auth-form.is-active {
+  display: block;
+  animation: fade-up 0.4s var(--ease-out);
+}
+
+/* ==========================================================
+   SUCCESS (checkout)
+   ========================================================== */
+.success {
+  display: grid;
+  justify-items: center;
+  gap: var(--sp-3);
+  text-align: center;
+}
+
+.success__check {
+  display: grid;
+  place-items: center;
+  width: 92px;
+  height: 92px;
+  margin-bottom: var(--sp-2);
+  font-size: 3rem;
+  font-weight: 900;
+  color: var(--white);
+  background: var(--green);
+  border: var(--border);
+  border-radius: 50%;
+  box-shadow: var(--shadow);
+  animation: pop-in 0.6s var(--ease-bounce) 0.2s both;
+}
+
+.success h2 { font-size: 2rem; }
+.success p  { color: var(--muted); }
+.success p strong { color: var(--dark); }
+
+.success__eta {
+  padding: 8px 16px;
+  background: var(--mustard);
+  border: var(--border-thin);
+  border-radius: var(--r-pill);
+  color: var(--dark) !important;
+}
+
+.success__actions {
+  display: grid;
+  gap: var(--sp-3);
+  width: 100%;
+  margin-top: var(--sp-4);
+}
+
+/* ==========================================================
+   CONFIRM (cancel order / logout / reset)
+   ========================================================== */
+.confirm {
+  display: grid;
+  gap: var(--sp-3);
+  text-align: center;
+}
+
+.confirm__icon {
+  justify-self: center;
+  display: grid;
+  place-items: center;
+  width: 72px;
+  height: 72px;
+  font-size: 2rem;
+  background: var(--mustard);
+  border: var(--border);
+  border-radius: 50%;
+  box-shadow: var(--shadow-sm);
+  animation: wiggle 1.4s ease-in-out infinite;
+}
+
+.confirm h2 { font-size: 1.6rem; }
+.confirm p  { color: var(--muted); margin-inline: auto; }
+.confirm .field { text-align: left; margin-top: var(--sp-2); }
+
+.confirm__actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--sp-3);
+  margin-top: var(--sp-3);
+}
+
+/* ==========================================================
+   RESPONSIVE
+   ========================================================== */
+@media (max-width: 760px) {
+  .modal { align-items: end; padding: 0; }
+
+  /* nagiging bottom sheet sa mobile */
+  .modal__dialog {
+    grid-template-columns: 1fr;
+    width: 100%;
+    max-height: 92vh;
+    max-height: 92dvh;
+    border-radius: var(--r-lg) var(--r-lg) 0 0;
+    border-bottom: none;
+    box-shadow: none;
+    transform: translateY(100%);
+  }
+  .modal.is-open .modal__dialog { transform: translateY(0); }
+
+  .modal__dialog--small { overflow-y: auto; }
+
+  .modal__side { display: none; }
+
+  /* drag handle look */
+  .modal__dialog::before {
+    content: "";
+    position: absolute;
+    top: 10px;
+    left: 50%;
+    width: 48px;
+    height: 5px;
+    background: var(--line);
+    border-radius: var(--r-pill);
+    transform: translateX(-50%);
+  }
+}

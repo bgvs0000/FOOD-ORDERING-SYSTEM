@@ -1,0 +1,182 @@
+/* ==========================================================
+   ANIMATIONS & EFFECTS
+   ========================================================== */
+
+/* ---------- Keyframes ---------- */
+@keyframes float {
+  0%, 100% { transform: translateY(0) rotate(var(--rot, 0deg)); }
+  50%      { transform: translateY(-18px) rotate(var(--rot, 0deg)); }
+}
+
+@keyframes spin-slow {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes marquee {
+  to { transform: translateX(-50%); }
+}
+
+@keyframes wiggle {
+  0%, 100% { transform: rotate(-4deg); }
+  50%      { transform: rotate(4deg); }
+}
+
+@keyframes bounce {
+  0%, 100% { transform: scale(1); }
+  40%      { transform: scale(1.35); }
+  70%      { transform: scale(0.9); }
+}
+
+@keyframes pop-in {
+  0%   { transform: scale(0.6); opacity: 0; }
+  100% { transform: scale(1);   opacity: 1; }
+}
+
+@keyframes fade-up {
+  from { transform: translateY(24px); opacity: 0; }
+  to   { transform: translateY(0);    opacity: 1; }
+}
+
+@keyframes drop-in {
+  0%   { transform: translateY(-120%) rotate(-8deg); opacity: 0; }
+  70%  { transform: translateY(6%)    rotate(2deg);  opacity: 1; }
+  100% { transform: translateY(0)     rotate(0);     opacity: 1; }
+}
+
+@keyframes pulse-ring {
+  0%   { box-shadow: var(--shadow), 0 0 0 0   rgba(255, 75, 62, 0.55); }
+  100% { box-shadow: var(--shadow), 0 0 0 22px rgba(255, 75, 62, 0); }
+}
+
+@keyframes shimmer {
+  100% { transform: translateX(100%); }
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20%, 60% { transform: translateX(-8px); }
+  40%, 80% { transform: translateX(8px); }
+}
+
+@keyframes blink-dot {
+  0%, 100% { opacity: 1; }
+  50%      { opacity: 0.25; }
+}
+
+/* ---------- Utility classes ---------- */
+.anim-float  { animation: float 5s ease-in-out infinite; }
+.anim-spin   { animation: spin-slow 22s linear infinite; }
+.anim-wiggle { animation: wiggle 2.4s ease-in-out infinite; }
+.anim-bounce { animation: bounce 0.5s var(--ease-bounce); }
+.anim-pop    { animation: pop-in 0.45s var(--ease-bounce) both; }
+.anim-fade-up{ animation: fade-up 0.6s var(--ease-out) both; }
+.anim-shake  { animation: shake 0.4s ease; }
+
+/* Staggered list items: style="--i:0", "--i:1", ... */
+.stagger > * {
+  animation: fade-up 0.55s var(--ease-out) both;
+  animation-delay: calc(var(--i, 0) * 0.06s);
+}
+
+/* ---------- Hero headline: word-by-word drop ---------- */
+.hero-title .word {
+  display: inline-block;
+  animation: drop-in 0.9s var(--ease-bounce) both;
+  animation-delay: calc(var(--i) * 0.09s + 0.1s);
+}
+
+/* ---------- Scroll reveal (js/effects/scrollReveal.js) ---------- */
+[data-reveal] {
+  opacity: 0;
+  transition:
+    opacity 0.8s var(--ease-out),
+    transform 0.8s var(--ease-out);
+  transition-delay: var(--delay, 0s);
+}
+[data-reveal="up"]    { transform: translateY(48px); }
+[data-reveal="left"]  { transform: translateX(-60px); }
+[data-reveal="right"] { transform: translateX(60px); }
+[data-reveal="zoom"]  { transform: scale(0.85); }
+
+[data-reveal].is-visible {
+  opacity: 1;
+  transform: rotate(var(--rot, 0deg));
+}
+
+/* ---------- 3D TILT (js/ui/tilt3d.js) ---------- */
+.tilt {
+  --rx: 0deg;
+  --ry: 0deg;
+  --gx: 50%;
+  --gy: 50%;
+  position: relative;
+  transform: perspective(900px) rotateX(var(--rx)) rotateY(var(--ry));
+  transform-style: preserve-3d;
+  transition: transform 0.5s var(--ease-out);
+  will-change: transform;
+}
+.tilt.is-tilting { transition: transform 0.08s linear; }
+
+/* image "pops out" of the card */
+.tilt__img {
+  transform: translateZ(60px);
+  filter: drop-shadow(10px 14px 0 rgba(30, 30, 30, 0.18));
+  pointer-events: none;
+  user-select: none;
+}
+
+/* moving shine */
+.tilt__glare {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(
+    circle at var(--gx) var(--gy),
+    rgba(255, 255, 255, 0.55),
+    transparent 55%
+  );
+  opacity: 0;
+  mix-blend-mode: soft-light;
+  pointer-events: none;
+  transition: opacity 0.3s;
+}
+.tilt.is-tilting .tilt__glare { opacity: 1; }
+
+/* ---------- Skeleton loading ---------- */
+.skeleton {
+  position: relative;
+  min-height: 320px;
+  overflow: hidden;
+  background: var(--cream-2) !important;
+  border-color: var(--line) !important;
+  box-shadow: none !important;
+}
+.skeleton::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  transform: translateX(-100%);
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.6), transparent);
+  animation: shimmer 1.2s infinite;
+}
+
+/* ---------- Confetti canvas (checkout success) ---------- */
+.confetti {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: var(--z-confetti);
+  pointer-events: none;
+}
+
+/* ---------- Live dot (e.g. "LIVE" tracking) ---------- */
+.live-dot {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  background: var(--red);
+  border: 2px solid var(--dark);
+  border-radius: 50%;
+  animation: blink-dot 1.2s infinite;
+}

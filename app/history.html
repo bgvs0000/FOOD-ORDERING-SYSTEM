@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Order History — Bun Voyage</title>
+  <link rel="icon" href="../assets/images/products/burger-classic.svg" />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Inter:wght@400;500;600;800&display=swap" rel="stylesheet" />
+
+  <!-- Base -->
+  <link rel="stylesheet" href="../css/base/reset.css" />
+  <link rel="stylesheet" href="../css/base/variables.css" />
+  <link rel="stylesheet" href="../css/base/typography.css" />
+  <!-- Components -->
+  <link rel="stylesheet" href="../css/components/buttons.css" />
+  <link rel="stylesheet" href="../css/components/navbar.css" />
+  <link rel="stylesheet" href="../css/components/cards.css" />
+  <link rel="stylesheet" href="../css/components/forms.css" />
+  <link rel="stylesheet" href="../css/components/modal.css" />
+  <link rel="stylesheet" href="../css/components/toast.css" />
+  <!-- Page -->
+  <link rel="stylesheet" href="../css/animations.css" />
+  <link rel="stylesheet" href="../css/pages/app.css" />
+  <link rel="stylesheet" href="../css/pages/history.css" />
+</head>
+
+<body class="app" data-page="history">
+
+  <header class="app-nav" id="appNav"></header>
+
+  <main class="app-main container">
+
+    <div class="page-head">
+      <div>
+        <h1>Order <span class="hl-box">History</span></h1>
+        <p class="page-head__sub">All your past cravings in one place.</p>
+      </div>
+      <a href="orders.html" class="btn btn--sm">🛵 Active orders</a>
+    </div>
+
+    <!-- ================= STATS ================= -->
+    <section class="history-stats">
+      <div class="h-stat h-stat--red">
+        <span class="h-stat__icon">🧾</span>
+        <div><small>Total orders</small><strong id="statOrders">0</strong></div>
+      </div>
+      <div class="h-stat h-stat--yellow">
+        <span class="h-stat__icon">💸</span>
+        <div><small>Total spent</small><strong id="statSpent">₱0</strong></div>
+      </div>
+      <div class="h-stat h-stat--green">
+        <span class="h-stat__icon">❤️</span>
+        <div><small>Favorite</small><strong id="statFav">—</strong></div>
+      </div>
+    </section>
+
+    <!-- ================= FILTERS ================= -->
+    <section class="history-toolbar">
+      <div class="chips" role="tablist" aria-label="Filter orders">
+        <button class="chip is-active" data-filter="all" role="tab" aria-selected="true">All <span class="chip__count" id="countAll">0</span></button>
+        <button class="chip" data-filter="COMPLETED" role="tab" aria-selected="false">Completed <span class="chip__count" id="countCompleted">0</span></button>
+        <button class="chip" data-filter="CANCELLED" role="tab" aria-selected="false">Cancelled <span class="chip__count" id="countCancelled">0</span></button>
+      </div>
+
+      <div class="history-toolbar__right">
+        <div class="search search--sm">
+          <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2.5"/><path d="M20 20l-4-4" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg>
+          <input type="search" id="historySearch" placeholder="Search order # or item" aria-label="Search orders" />
+        </div>
+        <select id="historySort" class="select" aria-label="Sort orders">
+          <option value="newest">Newest first</option>
+          <option value="oldest">Oldest first</option>
+          <option value="highest">Highest total</option>
+        </select>
+      </div>
+    </section>
+
+    <!-- ================= ORDER LIST ================= -->
+    <!-- Grouped by date ("Today", "Yesterday", "Oct 3, 2026"), rendered by js/pages/history.js -->
+    <section class="history-list" id="historyList" aria-live="polite"></section>
+
+    <!-- Empty state -->
+    <section class="empty-state" id="emptyHistory" hidden>
+      <img src="../assets/images/products/soda.svg" alt="" class="anim-float" />
+      <h3 id="emptyTitle">No orders yet</h3>
+      <p id="emptyText">Your completed and cancelled orders will show up here.</p>
+      <a href="home.html" class="btn btn--primary">Start ordering</a>
+    </section>
+  </main>
+
+  <!-- ================= RECEIPT MODAL ================= -->
+  <div class="modal" id="receiptModal" aria-hidden="true">
+    <div class="modal__overlay" data-close-modal></div>
+    <div class="modal__dialog modal__dialog--small" role="dialog" aria-modal="true" aria-labelledby="rcptTitle">
+      <button class="modal__close icon-btn" data-close-modal aria-label="Close">✕</button>
+
+      <div class="receipt" id="receipt">
+        <div class="receipt__head">
+          <img src="../assets/images/products/burger-classic.svg" alt="" width="48" height="48" />
+          <h2 id="rcptTitle">Bun Voyage</h2>
+          <small>123 Grill Street, Manila</small>
+        </div>
+
+        <div class="receipt__meta">
+          <div><span>Order</span><strong id="rcptId">#BV-0000</strong></div>
+          <div><span>Date</span><strong id="rcptDate">—</strong></div>
+          <div><span>Type</span><strong id="rcptType">—</strong></div>
+          <div><span>Payment</span><strong id="rcptPayment">—</strong></div>
+          <div><span>Status</span><strong id="rcptStatus">—</strong></div>
+        </div>
+
+        <ul class="receipt__items" id="rcptItems"></ul>
+
+        <dl class="receipt__totals">
+          <div><dt>Subtotal</dt><dd id="rcptSubtotal">₱0</dd></div>
+          <div><dt>Delivery</dt><dd id="rcptDelivery">₱0</dd></div>
+          <div id="rcptDiscountRow" hidden><dt>Discount</dt><dd id="rcptDiscount">−₱0</dd></div>
+          <div class="receipt__grand"><dt>TOTAL</dt><dd id="rcptTotal">₱0</dd></div>
+        </dl>
+
+        <p class="receipt__thanks">Thanks for riding the Bun Voyage! 🍔</p>
+        <div class="receipt__barcode" aria-hidden="true"></div>
+      </div>
+
+      <div class="receipt__actions">
+        <button class="btn btn--sm" id="printReceipt" type="button">🖨 Print</button>
+        <button class="btn btn--sm btn--primary" id="rcptReorder" type="button">🔁 Reorder</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= RATE MODAL ================= -->
+  <div class="modal" id="rateModal" aria-hidden="true">
+    <div class="modal__overlay" data-close-modal></div>
+    <div class="modal__dialog modal__dialog--small" role="dialog" aria-modal="true" aria-labelledby="rateTitle">
+      <button class="modal__close icon-btn" data-close-modal aria-label="Close">✕</button>
+      <form class="rate" id="rateForm">
+        <h2 id="rateTitle">How was your order?</h2>
+        <p>Order <strong id="rateOrderId">#BV-0000</strong></p>
+
+        <div class="stars" role="radiogroup" aria-label="Rating">
+          <input type="radio" name="stars" id="s5" value="5" /><label for="s5" title="5 stars">★</label>
+          <input type="radio" name="stars" id="s4" value="4" /><label for="s4" title="4 stars">★</label>
+          <input type="radio" name="stars" id="s3" value="3" /><label for="s3" title="3 stars">★</label>
+          <input type="radio" name="stars" id="s2" value="2" /><label for="s2" title="2 stars">★</label>
+          <input type="radio" name="stars" id="s1" value="1" /><label for="s1" title="1 star">★</label>
+        </div>
+
+        <div class="pill-toggles">
+          <label class="pill-toggle"><input type="checkbox" name="tags" value="Hot & fresh" /><span>Hot &amp; fresh</span></label>
+          <label class="pill-toggle"><input type="checkbox" name="tags" value="Fast delivery" /><span>Fast delivery</span></label>
+          <label class="pill-toggle"><input type="checkbox" name="tags" value="Great packaging" /><span>Great packaging</span></label>
+          <label class="pill-toggle"><input type="checkbox" name="tags" value="Friendly rider" /><span>Friendly rider</span></label>
+        </div>
+
+        <textarea name="comment" rows="3" maxlength="200" placeholder="Tell us more (optional)"></textarea>
+        <button type="submit" class="btn btn--primary btn--block">Submit review</button>
+      </form>
+    </div>
+  </div>
+
+  <nav class="bottom-nav" id="bottomNav" aria-label="Mobile"></nav>
+  <div class="toasts" id="toasts" aria-live="polite"></div>
+
+  <!-- ================= SCRIPTS ================= -->
+  <script src="../js/data/products.js"></script>
+  <script src="../js/core/storage.js"></script>
+  <script src="../js/core/auth.js"></script>
+  <script>Auth.guard();</script>
+  <script src="../js/core/cart.js"></script>
+  <script src="../js/core/orders.js"></script>
+  <script src="../js/ui/toast.js"></script>
+  <script src="../js/ui/modal.js"></script>
+  <script src="../js/ui/navbar.js"></script>
+  <script src="../js/pages/history.js"></script>
+</body>
+</html>

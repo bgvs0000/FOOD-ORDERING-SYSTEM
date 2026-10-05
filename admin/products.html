@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Products — Bun Voyage Admin</title>
+  <meta name="robots" content="noindex" />
+  <link rel="icon" href="../assets/images/products/burger-classic.svg" />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Inter:wght@400;500;600;800&display=swap" rel="stylesheet" />
+
+  <!-- Base -->
+  <link rel="stylesheet" href="../css/base/reset.css" />
+  <link rel="stylesheet" href="../css/base/variables.css" />
+  <link rel="stylesheet" href="../css/base/typography.css" />
+  <!-- Components -->
+  <link rel="stylesheet" href="../css/components/buttons.css" />
+  <link rel="stylesheet" href="../css/components/cards.css" />
+  <link rel="stylesheet" href="../css/components/forms.css" />
+  <link rel="stylesheet" href="../css/components/modal.css" />
+  <link rel="stylesheet" href="../css/components/toast.css" />
+  <!-- Page -->
+  <link rel="stylesheet" href="../css/animations.css" />
+  <link rel="stylesheet" href="../css/pages/app.css" />
+  <link rel="stylesheet" href="../css/pages/admin.css" />
+</head>
+
+<body class="admin" data-admin-page="products">
+
+  <aside class="admin-sidebar" id="adminSidebar"></aside>
+
+  <div class="admin-main">
+    <header class="admin-topbar" id="adminTopbar"></header>
+
+    <main class="admin-content">
+
+      <!-- ================= PAGE HEAD ================= -->
+      <div class="admin-head">
+        <div>
+          <p class="admin-head__date" id="productCountText">0 products</p>
+          <h1>Pro<span class="hl-red">ducts</span></h1>
+        </div>
+
+        <div class="admin-head__actions">
+          <button class="btn btn--sm" id="resetMenuBtn" type="button">↺ Reset menu</button>
+          <button class="btn btn--primary btn--sm" id="addProductBtn" type="button">+ Add product</button>
+        </div>
+      </div>
+
+      <!-- ================= QUICK STATS ================= -->
+      <section class="mini-stats">
+        <div class="mini-stat mini-stat--yellow">
+          <span class="mini-stat__icon">🍔</span>
+          <div><small>Total items</small><strong id="statTotal">0</strong></div>
+        </div>
+        <div class="mini-stat mini-stat--green">
+          <span class="mini-stat__icon">✅</span>
+          <div><small>Available</small><strong id="statAvailable">0</strong></div>
+        </div>
+        <div class="mini-stat mini-stat--orange">
+          <span class="mini-stat__icon">⚠️</span>
+          <div><small>Low stock (≤5)</small><strong id="statLow">0</strong></div>
+        </div>
+        <div class="mini-stat mini-stat--red">
+          <span class="mini-stat__icon">⛔</span>
+          <div><small>Sold out</small><strong id="statOut">0</strong></div>
+        </div>
+      </section>
+
+      <!-- ================= TOOLBAR ================= -->
+      <section class="admin-toolbar">
+        <div class="search search--sm">
+          <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2.5"/><path d="M20 20l-4-4" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg>
+          <input type="search" id="productSearch" placeholder="Search products" aria-label="Search products" />
+        </div>
+
+        <!-- Category chips (rendered by JS from CATEGORIES) -->
+        <nav class="chips" id="productCats" aria-label="Category"></nav>
+
+        <select id="stockFilter" class="select select--sm" aria-label="Stock filter">
+          <option value="all">All stock</option>
+          <option value="low">Low stock</option>
+          <option value="out">Sold out</option>
+          <option value="hidden">Hidden</option>
+        </select>
+      </section>
+
+      <!-- ================= PRODUCTS TABLE ================= -->
+      <section class="admin-card table-card">
+        <div class="table-wrap">
+          <table class="admin-table admin-table--products">
+            <thead>
+              <tr>
+                <th>Product</th>
+                <th>Category</th>
+                <th>Price</th>
+                <th>Stock</th>
+                <th>Sold</th>
+                <th>Visible</th>
+                <th><span class="sr-only">Actions</span></th>
+              </tr>
+            </thead>
+            <!-- Rows rendered by js/pages/admin-products.js -->
+            <tbody id="productsTableBody"></tbody>
+          </table>
+        </div>
+        <p class="empty-inline" id="noProducts" hidden>No products match your filters.</p>
+      </section>
+    </main>
+  </div>
+
+  <!-- ================= ADD / EDIT PRODUCT MODAL ================= -->
+  <div class="modal" id="productModal" aria-hidden="true">
+    <div class="modal__overlay" data-close-modal></div>
+    <div class="modal__dialog modal__dialog--small modal__dialog--wide" role="dialog" aria-modal="true" aria-labelledby="pmTitle">
+      <button class="modal__close icon-btn" data-close-modal aria-label="Close">✕</button>
+
+      <h2 class="pm-title" id="pmTitle">Add product</h2>
+
+      <div class="product-editor">
+
+        <!-- ===== Form ===== -->
+        <form id="productForm" class="product-editor__form" novalidate>
+          <input type="hidden" name="id" />
+
+          <div class="field">
+            <label for="pfName">Name</label>
+            <input type="text" id="pfName" name="name" maxlength="40" placeholder="e.g. Truffle Smash" required />
+            <small class="field__error"></small>
+          </div>
+
+          <div class="form-grid">
+            <div class="field">
+              <label for="pfCategory">Category</label>
+              <select id="pfCategory" name="category" class="select"></select> <!-- filled by JS -->
+            </div>
+            <div class="field">
+              <label for="pfTag">Tag <span class="opt">Optional</span></label>
+              <select id="pfTag" name="tag" class="select">
+                <option value="">None</option>
+                <option>Bestseller</option>
+                <option>New</option>
+                <option>Spicy</option>
+                <option>Value</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-grid form-grid--3">
+            <div class="field">
+              <label for="pfPrice">Price (₱)</label>
+              <input type="number" id="pfPrice" name="price" min="1" step="1" required />
+              <small class="field__error"></small>
+            </div>
+            <div class="field">
+              <label for="pfStock">Stock</label>
+              <input type="number" id="pfStock" name="stock" min="0" step="1" required />
+              <small class="field__error"></small>
+            </div>
+            <div class="field">
+              <label for="pfPrep">Prep (min)</label>
+              <input type="number" id="pfPrep" name="prepTime" min="1" step="1" />
+            </div>
+          </div>
+
+          <div class="form-grid">
+            <div class="field">
+              <label for="pfImage">Image</label>
+              <select id="pfImage" name="image" class="select">
+                <option value="burger-classic.svg">🍔 Classic burger</option>
+                <option value="burger-double.svg">🍔 Double burger</option>
+                <option value="burger-spicy.svg">🌶 Spicy burger</option>
+                <option value="burger-chicken.svg">🍗 Chicken burger</option>
+                <option value="fries.svg">🍟 Fries</option>
+                <option value="soda.svg">🥤 Drink</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="pfAccent">Card color</label>
+              <div class="color-row">
+                <input type="color" id="pfAccent" name="accent" value="#FFC233" />
+                <div class="swatches" id="pfSwatches">
+                  <button type="button" class="swatch" data-color="#FFC233" style="--c:#FFC233" aria-label="Mustard"></button>
+                  <button type="button" class="swatch" data-color="#FF4B3E" style="--c:#FF4B3E" aria-label="Red"></button>
+                  <button type="button" class="swatch" data-color="#FF8A1F" style="--c:#FF8A1F" aria-label="Orange"></button>
+                  <button type="button" class="swatch" data-color="#3BB273" style="--c:#3BB273" aria-label="Green"></button>
+                  <button type="button" class="swatch" data-color="#8EC5FF" style="--c:#8EC5FF" aria-label="Blue"></button>
+                  <button type="button" class="swatch" data-color="#A66BFF" style="--c:#A66BFF" aria-label="Purple"></button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="pfDesc">Description</label>
+            <textarea id="pfDesc" name="desc" rows="3" maxlength="160" placeholder="What makes it tasty?"></textarea>
+            <small class="field__hint"><span id="pfDescCount">0</span>/160</small>
+          </div>
+
+          <div class="form-grid">
+            <div class="field">
+              <label for="pfCal">Calories</label>
+              <input type="number" id="pfCal" name="calories" min="0" step="10" />
+            </div>
+            <div class="field field--switches">
+              <label class="switch-inline">
+                <span>⭐ Featured on landing</span>
+                <span class="switch"><input type="checkbox" name="featured" /><span></span></span>
+              </label>
+              <label class="switch-inline">
+                <span>👁 Visible in menu</span>
+                <span class="switch"><input type="checkbox" name="available" checked /><span></span></span>
+              </label>
+            </div>
+          </div>
+
+          <p class="form-error" role="alert"></p>
+
+          <div class="panel__actions">
+            <button type="button" class="btn btn--sm" data-close-modal>Cancel</button>
+            <button type="submit" class="btn btn--primary">Save product</button>
+          </div>
+        </form>
+
+        <!-- ===== Live preview ===== -->
+        <aside class="product-editor__preview" aria-label="Preview">
+          <p class="product-editor__label">Live preview</p>
+          <!-- preview card rendered by JS (same look as the customer menu) -->
+          <div id="pfPreview"></div>
+        </aside>
+      </div>
+    </div>
+  </div>
+
+  <!-- Confirm modal (used by Modal.confirm for delete / reset) -->
+  <div class="modal" id="confirmModal" aria-hidden="true">
+    <div class="modal__overlay" data-close-modal></div>
+    <div class="modal__dialog modal__dialog--small" role="dialog" aria-modal="true" aria-labelledby="confirmTitle">
+      <div class="confirm">
+        <div class="confirm__icon" id="confirmIcon">🗑</div>
+        <h2 id="confirmTitle">Delete product?</h2>
+        <p id="confirmText"></p>
+        <div class="confirm__actions">
+          <button class="btn" data-close-modal type="button">Cancel</button>
+          <button class="btn btn--primary" id="confirmOkBtn" type="button">Delete</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toasts -->
+  <div class="toasts" id="toasts" aria-live="polite"></div>
+
+  <!-- ================= SCRIPTS ================= -->
+  <script src="../js/data/products.js"></script>
+  <script src="../js/core/storage.js"></script>
+  <script src="../js/core/auth.js"></script>
+  <script>Auth.guardAdmin();</script>
+  <script src="../js/core/cart.js"></script>
+  <script src="../js/core/orders.js"></script>
+  <script src="../js/ui/toast.js"></script>
+  <script src="../js/ui/modal.js"></script>
+  <script src="../js/ui/adminShell.js"></script>
+  <script src="../js/pages/admin-products.js"></script>
+</body>
+</html>

@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard — Bun Voyage Admin</title>
+  <meta name="robots" content="noindex" />
+  <link rel="icon" href="../assets/images/products/burger-classic.svg" />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Inter:wght@400;500;600;800&display=swap" rel="stylesheet" />
+
+  <!-- Base -->
+  <link rel="stylesheet" href="../css/base/reset.css" />
+  <link rel="stylesheet" href="../css/base/variables.css" />
+  <link rel="stylesheet" href="../css/base/typography.css" />
+  <!-- Components -->
+  <link rel="stylesheet" href="../css/components/buttons.css" />
+  <link rel="stylesheet" href="../css/components/cards.css" />
+  <link rel="stylesheet" href="../css/components/forms.css" />
+  <link rel="stylesheet" href="../css/components/modal.css" />
+  <link rel="stylesheet" href="../css/components/toast.css" />
+  <!-- Page -->
+  <link rel="stylesheet" href="../css/animations.css" />
+  <link rel="stylesheet" href="../css/pages/app.css" />
+  <link rel="stylesheet" href="../css/pages/admin.css" />
+</head>
+
+<body class="admin" data-admin-page="dashboard">
+
+  <!-- Sidebar (rendered by js/ui/adminShell.js) -->
+  <aside class="admin-sidebar" id="adminSidebar"></aside>
+
+  <div class="admin-main">
+
+    <!-- Topbar (rendered by js/ui/adminShell.js) -->
+    <header class="admin-topbar" id="adminTopbar"></header>
+
+    <main class="admin-content">
+
+      <!-- ================= PAGE HEAD ================= -->
+      <div class="admin-head">
+        <div>
+          <p class="admin-head__date" id="todayLabel">Today</p>
+          <h1>Dash<span class="hl-red">board</span></h1>
+        </div>
+
+        <div class="admin-head__actions">
+          <select id="rangeSelect" class="select select--sm" aria-label="Date range">
+            <option value="1">Today</option>
+            <option value="7" selected>Last 7 days</option>
+            <option value="30">Last 30 days</option>
+          </select>
+          <a href="orders.html" class="btn btn--primary btn--sm">🧾 Manage orders</a>
+        </div>
+      </div>
+
+      <!-- ================= KPI CARDS ================= -->
+      <section class="kpis" aria-label="Key numbers">
+        <article class="kpi kpi--red">
+          <span class="kpi__icon">💸</span>
+          <div class="kpi__body">
+            <small>Sales</small>
+            <strong id="kpiSales">₱0</strong>
+            <span class="kpi__delta" id="kpiSalesDelta">—</span>
+          </div>
+        </article>
+
+        <article class="kpi kpi--yellow">
+          <span class="kpi__icon">🧾</span>
+          <div class="kpi__body">
+            <small>Orders</small>
+            <strong id="kpiOrders">0</strong>
+            <span class="kpi__delta" id="kpiOrdersDelta">—</span>
+          </div>
+        </article>
+
+        <article class="kpi kpi--green">
+          <span class="kpi__icon">🍔</span>
+          <div class="kpi__body">
+            <small>Avg. order value</small>
+            <strong id="kpiAov">₱0</strong>
+            <span class="kpi__delta" id="kpiAovDelta">—</span>
+          </div>
+        </article>
+
+        <article class="kpi kpi--blue">
+          <span class="kpi__icon">🔥</span>
+          <div class="kpi__body">
+            <small>Active now</small>
+            <strong id="kpiActive">0</strong>
+            <span class="kpi__delta kpi__delta--live"><span class="live-dot"></span> Live</span>
+          </div>
+        </article>
+      </section>
+
+      <!-- ================= MAIN GRID ================= -->
+      <section class="dash-grid">
+
+        <!-- Sales chart -->
+        <article class="admin-card dash-grid__chart">
+          <div class="admin-card__head">
+            <div>
+              <h2>Sales</h2>
+              <p class="admin-card__sub" id="chartSub">Last 7 days</p>
+            </div>
+            <strong class="admin-card__big" id="chartTotal">₱0</strong>
+          </div>
+          <!-- bar chart (SVG) rendered by admin-dashboard.js -->
+          <div class="bar-chart" id="salesChart" role="img" aria-label="Sales per day"></div>
+        </article>
+
+        <!-- Order status breakdown -->
+        <article class="admin-card dash-grid__status">
+          <div class="admin-card__head">
+            <h2>Order status</h2>
+          </div>
+          <ul class="status-bars" id="statusBreakdown"></ul>
+        </article>
+
+        <!-- Live orders -->
+        <article class="admin-card dash-grid__live">
+          <div class="admin-card__head">
+            <h2><span class="live-dot"></span> Live orders</h2>
+            <a href="orders.html" class="link">View all →</a>
+          </div>
+          <ul class="live-list" id="liveOrders"></ul>
+          <p class="empty-inline" id="noLive" hidden>No active orders right now. 🍔</p>
+        </article>
+
+        <!-- Top sellers -->
+        <article class="admin-card dash-grid__top">
+          <div class="admin-card__head">
+            <h2>Top sellers</h2>
+          </div>
+          <ol class="top-list" id="topSellers"></ol>
+          <p class="empty-inline" id="noTop" hidden>No sales yet.</p>
+        </article>
+
+        <!-- Low stock -->
+        <article class="admin-card dash-grid__stock">
+          <div class="admin-card__head">
+            <h2>⚠️ Low stock</h2>
+            <a href="products.html" class="link">Restock →</a>
+          </div>
+          <ul class="stock-list" id="lowStock"></ul>
+          <p class="empty-inline" id="noLowStock" hidden>All items are well stocked. ✅</p>
+        </article>
+
+        <!-- Demo tools -->
+        <article class="admin-card admin-card--dashed dash-grid__demo">
+          <div class="admin-card__head">
+            <h2>🧪 Demo tools</h2>
+          </div>
+          <p class="admin-card__sub">Walang orders pa? Gumawa ng sample data para makita ang dashboard.</p>
+          <div class="demo-actions">
+            <button class="btn btn--yellow btn--sm" id="seedBtn" type="button">✨ Generate sample orders</button>
+            <button class="btn btn--sm" id="clearOrdersBtn" type="button">🗑 Clear all orders</button>
+          </div>
+        </article>
+      </section>
+    </main>
+  </div>
+
+  <!-- Toasts -->
+  <div class="toasts" id="toasts" aria-live="polite"></div>
+
+  <!-- ================= SCRIPTS ================= -->
+  <script src="../js/data/products.js"></script>
+  <script src="../js/core/storage.js"></script>
+  <script src="../js/core/auth.js"></script>
+  <script>Auth.guardAdmin();</script>   <!-- admin lang ang makakapasok -->
+  <script src="../js/core/cart.js"></script>
+  <script src="../js/core/orders.js"></script>
+  <script src="../js/ui/toast.js"></script>
+  <script src="../js/ui/modal.js"></script>
+  <script src="../js/ui/adminShell.js"></script>
+  <script src="../js/pages/admin-dashboard.js"></script>
+</body>
+</html>

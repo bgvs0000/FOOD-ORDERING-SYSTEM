@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Product — Bun Voyage</title>
+  <link rel="icon" href="../assets/images/products/burger-classic.svg" />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Inter:wght@400;500;600;800&display=swap" rel="stylesheet" />
+
+  <!-- Base -->
+  <link rel="stylesheet" href="../css/base/reset.css" />
+  <link rel="stylesheet" href="../css/base/variables.css" />
+  <link rel="stylesheet" href="../css/base/typography.css" />
+  <!-- Components -->
+  <link rel="stylesheet" href="../css/components/buttons.css" />
+  <link rel="stylesheet" href="../css/components/navbar.css" />
+  <link rel="stylesheet" href="../css/components/cards.css" />
+  <link rel="stylesheet" href="../css/components/forms.css" />
+  <link rel="stylesheet" href="../css/components/toast.css" />
+  <!-- Page -->
+  <link rel="stylesheet" href="../css/animations.css" />
+  <link rel="stylesheet" href="../css/pages/app.css" />
+  <link rel="stylesheet" href="../css/pages/product.css" />
+</head>
+
+<body class="app" data-page="home">
+
+  <header class="app-nav" id="appNav"></header>
+
+  <main class="app-main container">
+
+    <!-- Breadcrumb -->
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a href="home.html">← Back to menu</a>
+      <span>/</span>
+      <span id="crumbCategory">Burgers</span>
+      <span>/</span>
+      <strong id="crumbName">Loading...</strong>
+    </nav>
+
+    <!-- ================= PRODUCT DETAIL ================= -->
+    <section class="product" id="productView">
+
+      <!-- LEFT: 3D image -->
+      <div class="product__gallery">
+        <div class="product__bg" id="productBg" aria-hidden="true"></div>
+
+        <div class="tilt product__img" data-tilt data-tilt-max="20">
+          <img id="productImg" src="../assets/images/products/burger-classic.svg" alt="" class="tilt__img" />
+          <span class="tilt__glare"></span>
+        </div>
+
+        <span class="product__tag" id="productTag" hidden>Bestseller</span>
+        <p class="product__hint">↔ Move your mouse over the burger</p>
+      </div>
+
+      <!-- RIGHT: info + options -->
+      <div class="product__info">
+        <span class="eyebrow" id="productCategory">Burgers</span>
+        <h1 class="product__name" id="productName">Loading...</h1>
+
+        <div class="product__meta">
+          <span class="rating">★ <strong id="productRating">0.0</strong> <small id="productReviews">(0 reviews)</small></span>
+          <span class="dot">•</span>
+          <span>🔥 <span id="productCal">0</span> kcal</span>
+          <span class="dot">•</span>
+          <span>⏱ <span id="productTime">0</span> min</span>
+        </div>
+
+        <p class="product__desc" id="productDesc"></p>
+
+        <p class="product__price">
+          <span id="basePrice">₱0</span>
+          <small>base price</small>
+        </p>
+
+        <form id="productForm" class="product__form">
+
+          <!-- SIZE (burgers / sides / drinks) -->
+          <fieldset class="opt-group" id="sizeGroup">
+            <legend>Choose size <span class="req">Required</span></legend>
+            <div class="opt-grid">
+              <label class="opt-card">
+                <input type="radio" name="size" value="Regular" data-price="0" checked />
+                <span><strong>Regular</strong><small>+₱0</small></span>
+              </label>
+              <label class="opt-card">
+                <input type="radio" name="size" value="Large" data-price="40" />
+                <span><strong>Large</strong><small>+₱40</small></span>
+              </label>
+              <label class="opt-card">
+                <input type="radio" name="size" value="Monster" data-price="80" />
+                <span><strong>Monster</strong><small>+₱80</small></span>
+              </label>
+            </div>
+          </fieldset>
+
+          <!-- ADD-ONS (burgers only — hidden by JS for other categories) -->
+          <fieldset class="opt-group" id="addonGroup">
+            <legend>Add-ons <span class="opt">Optional</span></legend>
+            <div class="addon-list">
+              <label class="addon">
+                <input type="checkbox" name="addons" value="Extra Cheese" data-price="25" />
+                <span class="addon__box"></span>
+                <span class="addon__name">🧀 Extra Cheese</span>
+                <span class="addon__price">+₱25</span>
+              </label>
+              <label class="addon">
+                <input type="checkbox" name="addons" value="Bacon" data-price="40" />
+                <span class="addon__box"></span>
+                <span class="addon__name">🥓 Crispy Bacon</span>
+                <span class="addon__price">+₱40</span>
+              </label>
+              <label class="addon">
+                <input type="checkbox" name="addons" value="Extra Patty" data-price="60" />
+                <span class="addon__box"></span>
+                <span class="addon__name">🍖 Extra Patty</span>
+                <span class="addon__price">+₱60</span>
+              </label>
+              <label class="addon">
+                <input type="checkbox" name="addons" value="Fried Egg" data-price="20" />
+                <span class="addon__box"></span>
+                <span class="addon__name">🍳 Fried Egg</span>
+                <span class="addon__price">+₱20</span>
+              </label>
+            </div>
+          </fieldset>
+
+          <!-- REMOVE INGREDIENTS (burgers only) -->
+          <fieldset class="opt-group" id="removeGroup">
+            <legend>Remove ingredients</legend>
+            <div class="pill-toggles">
+              <label class="pill-toggle"><input type="checkbox" name="remove" value="No Onions" /><span>No onions</span></label>
+              <label class="pill-toggle"><input type="checkbox" name="remove" value="No Pickles" /><span>No pickles</span></label>
+              <label class="pill-toggle"><input type="checkbox" name="remove" value="No Tomato" /><span>No tomato</span></label>
+              <label class="pill-toggle"><input type="checkbox" name="remove" value="No Sauce" /><span>No sauce</span></label>
+            </div>
+          </fieldset>
+
+          <!-- NOTES -->
+          <div class="field">
+            <label for="notes">Special instructions</label>
+            <textarea id="notes" name="notes" rows="2" maxlength="120" placeholder="e.g. well-done patty, extra napkins"></textarea>
+          </div>
+
+          <!-- QTY + ADD -->
+          <div class="buy-bar">
+            <div class="qty" role="group" aria-label="Quantity">
+              <button type="button" class="qty__btn" data-qty="-1" aria-label="Decrease">−</button>
+              <input type="number" id="qtyInput" class="qty__input" value="1" min="1" max="20" aria-label="Quantity" />
+              <button type="button" class="qty__btn" data-qty="1" aria-label="Increase">+</button>
+            </div>
+
+            <button type="submit" class="btn btn--primary btn--lg buy-bar__add" id="addBtn">
+              Add to Cart • <span id="lineTotal">₱0</span>
+            </button>
+          </div>
+
+          <p class="stock-note" id="stockNote"></p>
+        </form>
+      </div>
+    </section>
+
+    <!-- Not found state -->
+    <section class="empty-state" id="notFound" hidden>
+      <img src="../assets/images/products/burger-spicy.svg" alt="" class="anim-wiggle" />
+      <h3>Product not found</h3>
+      <p>This item may have been removed from the menu.</p>
+      <a href="home.html" class="btn btn--primary">Back to menu</a>
+    </section>
+
+    <!-- ================= RELATED ================= -->
+    <section class="related" id="relatedSection">
+      <div class="grid-head">
+        <h2>You may also <span class="hl-red">like</span></h2>
+      </div>
+      <div class="product-grid" id="relatedGrid"></div>
+    </section>
+  </main>
+
+  <nav class="bottom-nav" id="bottomNav" aria-label="Mobile"></nav>
+  <div class="toasts" id="toasts" aria-live="polite"></div>
+
+  <!-- ================= SCRIPTS ================= -->
+  <script src="../js/data/products.js"></script>
+  <script src="../js/core/storage.js"></script>
+  <script src="../js/core/auth.js"></script>
+  <script>Auth.guard();</script>
+  <script src="../js/core/cart.js"></script>
+  <script src="../js/ui/toast.js"></script>
+  <script src="../js/ui/navbar.js"></script>
+  <script src="../js/ui/tilt3d.js"></script>
+  <script src="../js/pages/product.js"></script>
+</body>
+</html>

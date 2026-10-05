@@ -1,0 +1,305 @@
+/* ==========================================================
+   PRODUCT GRID
+   ========================================================== */
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: var(--sp-6) var(--sp-5);
+}
+
+.grid-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--sp-4);
+  margin-bottom: var(--sp-5);
+}
+.grid-head h2 { font-size: clamp(1.5rem, 3vw, 2.2rem); }
+.grid-count {
+  font-size: var(--fs-sm);
+  font-weight: 700;
+  color: var(--muted);
+}
+
+/* ==========================================================
+   PRODUCT CARD  — rendered by JS
+   <article class="product-card" style="--accent: #FFC233">
+     <a class="product-card__media tilt" data-tilt> <img class="tilt__img"> <span class="tilt__glare"></span> </a>
+     <span class="product-card__tag">Bestseller</span>
+     <div class="product-card__body"> ... </div>
+   </article>
+   ========================================================== */
+.product-card {
+  --accent: var(--mustard);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  background: var(--white);
+  border: var(--border);
+  border-radius: var(--r-lg);
+  box-shadow: var(--shadow);
+  transition: transform var(--t) var(--ease-out), box-shadow var(--t) var(--ease-out);
+}
+.product-card:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-lg);
+}
+
+/* ---------- Image area ---------- */
+.product-card__media {
+  position: relative;
+  display: grid;
+  place-items: center;
+  aspect-ratio: 5 / 4;
+  margin: 10px 10px 0;
+  padding: var(--sp-5);
+  background: var(--accent);
+  border: var(--border);
+  border-radius: calc(var(--r-lg) - 8px);
+  overflow: visible;
+}
+
+/* polka-dot pattern sa likod ng burger */
+.product-card__media::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background-image: radial-gradient(rgba(30, 30, 30, 0.12) 2px, transparent 2.5px);
+  background-size: 18px 18px;
+  pointer-events: none;
+}
+
+.product-card__media img {
+  position: relative;
+  width: 82%;
+  max-height: 100%;
+  object-fit: contain;
+  transition: transform var(--t) var(--ease-bounce);
+}
+.product-card:hover .product-card__media img {
+  transform: translateZ(70px) scale(1.08) rotate(-4deg);
+}
+
+/* ---------- Tag (Bestseller / New / Spicy) ---------- */
+.product-card__tag {
+  position: absolute;
+  top: -12px;
+  right: 16px;
+  z-index: 2;
+  padding: 5px 12px;
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--white);
+  background: var(--red);
+  border: var(--border-thin);
+  border-radius: var(--r-pill);
+  box-shadow: var(--shadow-xs);
+  transform: rotate(4deg);
+}
+.product-card__tag[data-tag="New"]   { background: var(--blue); }
+.product-card__tag[data-tag="Spicy"] { background: #FF8A1F; }
+.product-card__tag[data-tag="Value"] { background: var(--green); }
+
+/* ---------- Body ---------- */
+.product-card__body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 6px;
+  padding: var(--sp-4) var(--sp-5) var(--sp-5);
+}
+
+.product-card__cat {
+  font-size: var(--fs-xs);
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.product-card__name {
+  font-size: 1.2rem;
+  line-height: 1.1;
+}
+.product-card__name a:hover { color: var(--red); }
+
+.product-card__desc {
+  font-size: var(--fs-sm);
+  color: var(--muted);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.product-card__meta {
+  display: flex;
+  gap: 10px;
+  font-size: var(--fs-xs);
+  font-weight: 700;
+  color: var(--muted);
+}
+.product-card__meta .star { color: var(--mustard-dk); }
+
+.product-card__foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-3);
+  margin-top: auto;
+  padding-top: var(--sp-3);
+}
+
+.price {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  line-height: 1;
+}
+.price small {
+  font-family: var(--font-body);
+  font-size: var(--fs-xs);
+  font-weight: 600;
+  color: var(--muted);
+}
+
+/* ---------- Low stock / sold out ---------- */
+.product-card__stock {
+  font-size: var(--fs-xs);
+  font-weight: 800;
+  color: var(--red);
+}
+
+.product-card.is-soldout .product-card__media { filter: grayscale(1); opacity: 0.6; }
+.product-card.is-soldout::after {
+  content: "SOLD OUT";
+  position: absolute;
+  top: 34%;
+  left: 50%;
+  z-index: 3;
+  padding: 8px 18px;
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  color: var(--white);
+  background: var(--dark);
+  border: var(--border);
+  border-radius: var(--r-sm);
+  transform: translate(-50%, -50%) rotate(-8deg);
+}
+
+/* ==========================================================
+   PANEL — generic white box (checkout steps, account, etc.)
+   ========================================================== */
+.panel {
+  padding: clamp(20px, 3vw, 32px);
+  background: var(--white);
+  border: var(--border);
+  border-radius: var(--r-lg);
+  box-shadow: var(--shadow);
+}
+.panel + .panel { margin-top: var(--sp-5); }
+
+.panel__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-3);
+  margin-bottom: var(--sp-5);
+}
+.panel__head .panel__title { margin-bottom: 0; }
+
+.panel__title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: var(--sp-5);
+  font-size: clamp(1.1rem, 2vw, 1.4rem);
+}
+
+.panel__num {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  font-size: 1rem;
+  background: var(--mustard);
+  border: var(--border);
+  border-radius: 50%;
+}
+
+.panel__actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--sp-3);
+  margin-top: var(--sp-5);
+}
+
+/* ==========================================================
+   EMPTY STATE
+   ========================================================== */
+.empty-state {
+  display: grid;
+  justify-items: center;
+  gap: var(--sp-3);
+  padding: var(--sp-8) var(--sp-5);
+  text-align: center;
+  background: var(--white);
+  border: 3px dashed var(--dark);
+  border-radius: var(--r-lg);
+}
+.empty-state img {
+  width: 140px;
+  margin-bottom: var(--sp-3);
+}
+.empty-state h3 { font-size: 1.6rem; }
+.empty-state p  { color: var(--muted); }
+.empty-state .btn,
+.empty-state__actions { margin-top: var(--sp-3); }
+.empty-state__actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--sp-3);
+}
+
+.empty-inline {
+  padding: var(--sp-5);
+  text-align: center;
+  color: var(--muted);
+  border: 2px dashed var(--line);
+  border-radius: var(--r);
+}
+
+/* ==========================================================
+   NOTICE (info box)
+   ========================================================== */
+.notice {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--sp-3);
+  padding: var(--sp-4);
+  margin-bottom: var(--sp-5);
+  background: var(--cream);
+  border: var(--border-thin);
+  border-radius: var(--r);
+}
+.notice > span { font-size: 1.4rem; line-height: 1; }
+
+/* ==========================================================
+   RESPONSIVE
+   ========================================================== */
+@media (max-width: 560px) {
+  .product-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--sp-5) var(--sp-3);
+  }
+  .product-card { border-radius: var(--r); box-shadow: var(--shadow-sm); }
+  .product-card__media { margin: 6px 6px 0; padding: var(--sp-3); border-radius: 12px; }
+  .product-card__body { padding: var(--sp-3); }
+  .product-card__name { font-size: 0.95rem; }
+  .product-card__desc { display: none; }
+  .price { font-size: 1.15rem; }
+  .add-btn { width: 38px; height: 38px; font-size: 1.3rem; }
+}
